@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>com.microchip.mplab.nbide.embedded.makeproject</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/make-project/1">
+            <name>StandLEDControllerV1.0</name>
+            <name>IX1903B_PIC_DRIVER</name>
+            <name>WS62812_PIC_DRIVER</name>
+            <name>LEDpianoV2.0</name>
+            <name>LEDPianov1.0</name>
+            <name>LazerPointer_4fios</name>
+            <name>LazerPointer</name>
+            <name>UD4pic18</name>
+            <creation-uuid>30d9d0d1-0945-4d46-93e5-ad812bbc56e4</creation-uuid>
+            <make-project-type>0</make-project-type>
+            <c-extensions>c</c-extensions>
+            <cpp-extensions/>
+            <header-extensions>h</header-extensions>
+            <asminc-extensions/>
+            <sourceEncoding>ISO-8859-1</sourceEncoding>
+            <make-dep-projects/>
+            <sourceRootList>
+                <sourceRootElem>mcc_generated_files</sourceRootElem>
+            </sourceRootList>
+            <confList>
+                <confElem>
+                    <name>default</name>
+                    <type>2</type>
+                </confElem>
+            </confList>
+            <formatting>
+                <project-formatting-style>false</project-formatting-style>
+            </formatting>
+        </data>
+    </configuration>
+</project>
