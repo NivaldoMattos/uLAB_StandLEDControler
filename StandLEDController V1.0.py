@@ -85,9 +85,9 @@ def f_searching_ports():
 def f1():
     if ulcom.is_open():
 
-        channel = 0
-        data_len = 6
-        DadosTx = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY, 0, 0, 0, 10, 10, 10]
+        channel = 1
+        data_len = 21
+        DadosTx = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         SendData(DadosTx)
     else:
         ask_to_open_port()
@@ -95,9 +95,9 @@ def f1():
 
 def f2():
     if ulcom.is_open():
-        channel = 0
-        data_len = 9
-        DadosTx = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY, 200, 200, 200, 10, 25, 10, 15, 15, 15]
+        channel = 1
+        data_len = 21
+        DadosTx = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY, 0, 10, 2, 50, 6, 1, 100, 0,0, 2, 50, 6, 2, 50, 6, 2, 50, 6, 2, 50, 6]
         SendData(DadosTx)
     else:
         ask_to_open_port()

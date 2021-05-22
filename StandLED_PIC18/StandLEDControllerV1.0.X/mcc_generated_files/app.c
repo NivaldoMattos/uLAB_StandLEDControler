@@ -77,6 +77,8 @@ static int ShootLedsCh4 = 0;
 static int ShootLedsCh5 = 0;
 static int ShootLedsCh6 = 0;
 
+    static int Idx2, Idx3;
+
 uint8_t Idx = 0;
 uint8_t IdxFrame = 0;
 
@@ -140,12 +142,14 @@ void zero(){
 // Obs: Refatorar utilizando bloco inline em assembler + ponteiros para
 // simplificação do codigo e unificação destas funcoes.
 //------------------------------------------------------------------------------
-void um_0(){ LATB0 = 1; NOP();NOP();NOP();NOP();NOP();NOP();
-             NOP();NOP();NOP();NOP();NOP();NOP();
-             NOP();NOP();NOP(); LATB0 = 0;
+void um_0(){ LATB1 = 1; NOP();NOP();NOP();NOP();NOP();NOP();
+             NOP();NOP();NOP();NOP();NOP();NOP();NOP();NOP();NOP(); 
+             LATB1 = 0;
 }
-void zero_0(){ LATB0 = 1; NOP();NOP();NOP();NOP();NOP();NOP();
-               LATB0 = 0; NOP();NOP();NOP();NOP();NOP();NOP(); }
+void zero_0(){ LATB1 = 1; NOP();NOP();NOP();NOP();NOP();NOP();
+               LATB1 = 0; NOP();NOP();NOP();NOP();NOP();NOP(); }
+
+/*
 //-----------------------------
 void um_1(){ LATB1 = 1; NOP();NOP();NOP();NOP();NOP();NOP();
              NOP();NOP();NOP();NOP();NOP();NOP();
@@ -189,8 +193,40 @@ void um_6(){ LATB5 = 1; NOP();NOP();NOP();NOP();NOP();NOP();
 void zero_6(){ LATB5 = 1; NOP();NOP();NOP();NOP();NOP();NOP();
                LATB5 = 0; NOP();NOP();NOP();NOP();NOP();NOP(); }
 
+*/
+
+void SendBuffCh0(uint8_t idx_color1, uint8_t idx_color2, uint8_t idx_color3){
+   //-----------------------------
+    if( (CH0[idx_color1] & 128) > 0) um_0();else zero_0();
+    if( (CH0[idx_color1] & 64) > 0) um_0();else zero_0();
+    if( (CH0[idx_color1] & 32) > 0) um_0();else zero_0();
+    if( (CH0[idx_color1] & 16) > 0) um_0();else zero_0();
+    if( (CH0[idx_color1] & 8) > 0) um_0();else zero_0();
+    if( (CH0[idx_color1] & 4) > 0) um_0();else zero_0();
+    if( (CH0[idx_color1] & 2) > 0) um_0();else zero_0();
+    if( (CH0[idx_color1] & 1) > 0) um_0();else zero_0();
+    //-----------------------------
+    if( (CH0[idx_color2] & 128) > 0) um_0();else zero_0();
+    if( (CH0[idx_color2] & 64) > 0) um_0();else zero_0();
+    if( (CH0[idx_color2] & 32) > 0) um_0();else zero_0();
+    if( (CH0[idx_color2] & 16) > 0) um_0();else zero_0();
+    if( (CH0[idx_color2] & 8) > 0) um_0();else zero_0();
+    if( (CH0[idx_color2] & 4) > 0) um_0();else zero_0();
+    if( (CH0[idx_color2] & 2) > 0) um_0();else zero_0();
+    if( (CH0[idx_color2] & 1) > 0) um_0();else zero_0();
+    //-----------------------------
+    if( (CH0[idx_color3] & 128) > 0) um_0();else zero_0();
+    if( (CH0[idx_color3] & 64) > 0) um_0();else zero_0();
+    if( (CH0[idx_color3] & 32) > 0) um_0();else zero_0();
+    if( (CH0[idx_color3] & 16) > 0) um_0();else zero_0();
+    if( (CH0[idx_color3] & 8) > 0) um_0();else zero_0();
+    if( (CH0[idx_color3] & 4) > 0) um_0();else zero_0();
+    if( (CH0[idx_color3] & 2) > 0) um_0();else zero_0();
+    if( (CH0[idx_color3] & 1) > 0) um_0();else zero_0();
+}
 
 
+/*
 //------------------------------------------------------------------------------
 // Refatorar utilizando ponteiros para unificacao dessas funcoes
 //------------------------------------------------------------------------------
@@ -223,6 +259,9 @@ void SendBuffCh0(uint8_t idx ){
     if( (B0[idx] & 2) > 0) um_0();else zero_0();
     if( (B0[idx] & 1) > 0) um_0();else zero_0();
 }
+
+
+
 void SendBuffCh1(uint8_t idx ){
    //-----------------------------
     if( (G1[idx] & 128) > 0) um_1();else zero_1();
@@ -397,7 +436,7 @@ void SendBuffCh6(uint8_t idx ){
     if( (B6[idx] & 2) > 0) um_6();else zero_6();
     if( (B6[idx] & 1) > 0) um_6();else zero_6();
 }
-
+*/
 
 //------------------------------------------------------------------------------
 // 
@@ -416,12 +455,15 @@ void SetLED(uint8_t channel, uint8_t type, uint8_t led, uint8_t color1, uint8_t 
         green = color3;
         blue = color2;
     }
+    
     //-----------------
     if(channel == 0){
         R0[led]=red;
         G0[led]=green;
         B0[led]=blue;
     }
+    
+    /*
     else if(channel == 1){
         R1[led]=red;
         G1[led]=green;
@@ -447,6 +489,9 @@ void SetLED(uint8_t channel, uint8_t type, uint8_t led, uint8_t color1, uint8_t 
         G5[led]=green;
         B5[led]=blue;
     }
+     
+    */
+     
 }
 
 
@@ -467,6 +512,8 @@ void AppTimer100ms(){
 // Interrompe a cada 10ms
 //------------------------
 void AppTimer10ms(){
+    
+    /*
     static int cnt=0;
     
     if(send_ch0){
@@ -479,6 +526,8 @@ void AppTimer10ms(){
             send_ch0 = false;
         }
     }
+     * 
+     */
     
      
 }
@@ -488,10 +537,14 @@ void AppTimer10ms(){
 void AppTimer1ms(){
     
     if(ShootLedsCh0 == 1){
-        for(Idx=0; Idx < MAX_LEDS_CH0; Idx++)
-            SendBuffCh0(Idx);
+        for(Idx=0; Idx < ch0_len; Idx+=3){
+            SendBuffCh0(Idx, Idx+1, Idx+2);
+        }
         ShootLedsCh0 = 0;
     }
+    
+    /*
+    
     if(ShootLedsCh1 == 1){
         for(Idx=0; Idx < MAX_LEDS_CH1; Idx++)
             SendBuffCh1(Idx);
@@ -522,6 +575,9 @@ void AppTimer1ms(){
             SendBuffCh6(Idx);
         ShootLedsCh6 = 0;
     }
+     * 
+     * 
+     */
 }    
 
 
@@ -566,30 +622,23 @@ void AppTimer30us(void)  {
 //------------------------------------------------------------------------------
 void AppINT_USART1_RX(unsigned char rxData)
 {    
-    static int Idx2, Idx3;
+
     static int len_package = 0;
     static bool capturando = false;
     
-   
+    EUSART1_Write(Idx3);
     
     if(capturando){
-        
-        
         CH0[Idx3] = rxData; 
         
-       // EUSART1_Write(CH0[Idx3]);
-        
-       // EUSART1_Write(Idx3);
-        
-        if(Idx2 > (len_package)){
+        if(Idx2 > len_package){  //
             capturando=false;
             Idx2 = 0;
             Idx3 = 0;
-            send_ch0 = true;
+            //send_ch0 = true;
+            ShootLedsCh0 = 1;
        }
-        
     }
-    
     
     Buffer[Idx2]= rxData;
     if(Buffer[Idx2] == 254 && !capturando){
@@ -598,17 +647,16 @@ void AppINT_USART1_RX(unsigned char rxData)
             ch0_len = len_package; 
             type= Buffer[Idx2-2];
             channel= Buffer[Idx2-3];
-            //EUSART1_Write(channel);
             capturando = true;
-            Idx2 = 2;
+            Idx2 = 2;  //2
             Idx3 = 0;
         }
     }
     else{
        Idx2++;
-       Idx3++;
-       
     }
+    if(capturando)
+       Idx3++;
     
 }
  

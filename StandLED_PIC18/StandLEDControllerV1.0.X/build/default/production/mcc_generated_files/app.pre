@@ -9291,6 +9291,8 @@ static int ShootLedsCh4 = 0;
 static int ShootLedsCh5 = 0;
 static int ShootLedsCh6 = 0;
 
+static int Idx2, Idx3;
+
 uint8_t Idx = 0;
 uint8_t IdxFrame = 0;
 
@@ -9302,7 +9304,7 @@ int type = 0;
 int ch0_len = 0;
 bool send_ch0 = 0;
 
-# 96
+# 98
 void AppInitialize(void)
 {
 
@@ -9313,269 +9315,53 @@ INTCON2bits.INTEDG0 = 1;
 
 }
 
-# 110
+# 112
 void AppProcess(void){
 while(1){
 
 }
 }
 
-# 143
-void um_0(){ LATB0 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop(); LATB0 = 0;
+# 145
+void um_0(){ LATB1 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
+__nop();__nop();__nop();__nop();__nop();__nop();__nop();__nop();__nop();
+LATB1 = 0;
 }
-void zero_0(){ LATB0 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-LATB0 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
-
-void um_1(){ LATB1 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop(); LATB1 = 0;
-}
-void zero_1(){ LATB1 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
+void zero_0(){ LATB1 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
 LATB1 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
 
-void um_2(){ LATB2 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop(); LATB2 = 0;
-}
-void zero_2(){ LATB2 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-LATB2 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
+# 198
+void SendBuffCh0(uint8_t idx_color1, uint8_t idx_color2, uint8_t idx_color3){
 
-void um_3(){ LATB3 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop(); LATB3 = 0;
-}
-void zero_3(){ LATB3 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-LATB3 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
+if( (CH0[idx_color1] & 128) > 0) um_0();else zero_0();
+if( (CH0[idx_color1] & 64) > 0) um_0();else zero_0();
+if( (CH0[idx_color1] & 32) > 0) um_0();else zero_0();
+if( (CH0[idx_color1] & 16) > 0) um_0();else zero_0();
+if( (CH0[idx_color1] & 8) > 0) um_0();else zero_0();
+if( (CH0[idx_color1] & 4) > 0) um_0();else zero_0();
+if( (CH0[idx_color1] & 2) > 0) um_0();else zero_0();
+if( (CH0[idx_color1] & 1) > 0) um_0();else zero_0();
 
-void um_4(){ LATB4 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop(); LATB4 = 0;
-}
-void zero_4(){ LATB4 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-LATB4 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
+if( (CH0[idx_color2] & 128) > 0) um_0();else zero_0();
+if( (CH0[idx_color2] & 64) > 0) um_0();else zero_0();
+if( (CH0[idx_color2] & 32) > 0) um_0();else zero_0();
+if( (CH0[idx_color2] & 16) > 0) um_0();else zero_0();
+if( (CH0[idx_color2] & 8) > 0) um_0();else zero_0();
+if( (CH0[idx_color2] & 4) > 0) um_0();else zero_0();
+if( (CH0[idx_color2] & 2) > 0) um_0();else zero_0();
+if( (CH0[idx_color2] & 1) > 0) um_0();else zero_0();
 
-void um_5(){ LATB5 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop(); LATB5 = 0;
-}
-void zero_5(){ LATB5 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-LATB5 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
-
-void um_6(){ LATB5 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop();__nop();__nop();__nop();
-__nop();__nop();__nop(); LATB5 = 0;
-}
-void zero_6(){ LATB5 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
-LATB5 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
-
-# 197
-void SendBuffCh0(uint8_t idx ){
-
-if( (G0[idx] & 128) > 0) um_0();else zero_0();
-if( (G0[idx] & 64) > 0) um_0();else zero_0();
-if( (G0[idx] & 32) > 0) um_0();else zero_0();
-if( (G0[idx] & 16) > 0) um_0();else zero_0();
-if( (G0[idx] & 8) > 0) um_0();else zero_0();
-if( (G0[idx] & 4) > 0) um_0();else zero_0();
-if( (G0[idx] & 2) > 0) um_0();else zero_0();
-if( (G0[idx] & 1) > 0) um_0();else zero_0();
-
-if( (R0[idx] & 128) > 0) um_0();else zero_0();
-if( (R0[idx] & 64) > 0) um_0();else zero_0();
-if( (R0[idx] & 32) > 0) um_0();else zero_0();
-if( (R0[idx] & 16) > 0) um_0();else zero_0();
-if( (R0[idx] & 8) > 0) um_0();else zero_0();
-if( (R0[idx] & 4) > 0) um_0();else zero_0();
-if( (R0[idx] & 2) > 0) um_0();else zero_0();
-if( (R0[idx] & 1) > 0) um_0();else zero_0();
-
-if( (B0[idx] & 128) > 0) um_0();else zero_0();
-if( (B0[idx] & 64) > 0) um_0();else zero_0();
-if( (B0[idx] & 32) > 0) um_0();else zero_0();
-if( (B0[idx] & 16) > 0) um_0();else zero_0();
-if( (B0[idx] & 8) > 0) um_0();else zero_0();
-if( (B0[idx] & 4) > 0) um_0();else zero_0();
-if( (B0[idx] & 2) > 0) um_0();else zero_0();
-if( (B0[idx] & 1) > 0) um_0();else zero_0();
-}
-void SendBuffCh1(uint8_t idx ){
-
-if( (G1[idx] & 128) > 0) um_1();else zero_1();
-if( (G1[idx] & 64) > 0) um_1();else zero_1();
-if( (G1[idx] & 32) > 0) um_1();else zero_1();
-if( (G1[idx] & 16) > 0) um_1();else zero_1();
-if( (G1[idx] & 8) > 0) um_1();else zero_1();
-if( (G1[idx] & 4) > 0) um_1();else zero_1();
-if( (G1[idx] & 2) > 0) um_1();else zero_1();
-if( (G1[idx] & 1) > 0) um_1();else zero_1();
-
-if( (R1[idx] & 128) > 0) um_1();else zero_1();
-if( (R1[idx] & 64) > 0) um_1();else zero_1();
-if( (R1[idx] & 32) > 0) um_1();else zero_1();
-if( (R1[idx] & 16) > 0) um_1();else zero_1();
-if( (R1[idx] & 8) > 0) um_1();else zero_1();
-if( (R1[idx] & 4) > 0) um_1();else zero_1();
-if( (R1[idx] & 2) > 0) um_1();else zero_1();
-if( (R1[idx] & 1) > 0) um_1();else zero_1();
-
-if( (B1[idx] & 128) > 0) um_1();else zero_1();
-if( (B1[idx] & 64) > 0) um_1();else zero_1();
-if( (B1[idx] & 32) > 0) um_1();else zero_1();
-if( (B1[idx] & 16) > 0) um_1();else zero_1();
-if( (B1[idx] & 8) > 0) um_1();else zero_1();
-if( (B1[idx] & 4) > 0) um_1();else zero_1();
-if( (B1[idx] & 2) > 0) um_1();else zero_1();
-if( (B1[idx] & 1) > 0) um_1();else zero_1();
-}
-void SendBuffCh2(uint8_t idx ){
-
-if( (G2[idx] & 64) > 0) um_2();else zero_2();
-if( (G2[idx] & 128) > 0) um_2();else zero_2();
-if( (G2[idx] & 32) > 0) um_2();else zero_2();
-if( (G2[idx] & 16) > 0) um_2();else zero_2();
-if( (G2[idx] & 8) > 0) um_2();else zero_2();
-if( (G2[idx] & 4) > 0) um_2();else zero_2();
-if( (G2[idx] & 2) > 0) um_2();else zero_2();
-if( (G2[idx] & 1) > 0) um_2();else zero_2();
-
-if( (R2[idx] & 128) > 0) um_2();else zero_2();
-if( (R2[idx] & 64) > 0) um_2();else zero_2();
-if( (R2[idx] & 32) > 0) um_2();else zero_2();
-if( (R2[idx] & 16) > 0) um_2();else zero_2();
-if( (R2[idx] & 8) > 0) um_2();else zero_2();
-if( (R2[idx] & 4) > 0) um_2();else zero_2();
-if( (R2[idx] & 2) > 0) um_2();else zero_2();
-if( (R2[idx] & 1) > 0) um_2();else zero_2();
-
-if( (B2[idx] & 128) > 0) um_2();else zero_2();
-if( (B2[idx] & 64) > 0) um_2();else zero_2();
-if( (B2[idx] & 32) > 0) um_2();else zero_2();
-if( (B2[idx] & 16) > 0) um_2();else zero_2();
-if( (B2[idx] & 8) > 0) um_2();else zero_2();
-if( (B2[idx] & 4) > 0) um_2();else zero_2();
-if( (B2[idx] & 2) > 0) um_2();else zero_2();
-if( (B2[idx] & 1) > 0) um_2();else zero_2();
-}
-void SendBuffCh3(uint8_t idx ){
-
-if( (G3[idx] & 128) > 0) um_3();else zero_3();
-if( (G3[idx] & 64) > 0) um_3();else zero_3();
-if( (G3[idx] & 32) > 0) um_3();else zero_3();
-if( (G3[idx] & 16) > 0) um_3();else zero_3();
-if( (G3[idx] & 8) > 0) um_3();else zero_3();
-if( (G3[idx] & 4) > 0) um_3();else zero_3();
-if( (G3[idx] & 2) > 0) um_3();else zero_3();
-if( (G3[idx] & 1) > 0) um_3();else zero_3();
-
-if( (R3[idx] & 128) > 0) um_3();else zero_3();
-if( (R3[idx] & 64) > 0) um_3();else zero_3();
-if( (R3[idx] & 32) > 0) um_3();else zero_3();
-if( (R3[idx] & 16) > 0) um_3();else zero_3();
-if( (R3[idx] & 8) > 0) um_3();else zero_3();
-if( (R3[idx] & 4) > 0) um_3();else zero_3();
-if( (R3[idx] & 2) > 0) um_3();else zero_3();
-if( (R3[idx] & 1) > 0) um_3();else zero_3();
-
-if( (B3[idx] & 128) > 0) um_3();else zero_3();
-if( (B3[idx] & 64) > 0) um_3();else zero_3();
-if( (B3[idx] & 32) > 0) um_3();else zero_3();
-if( (B3[idx] & 16) > 0) um_3();else zero_3();
-if( (B3[idx] & 8) > 0) um_3();else zero_3();
-if( (B3[idx] & 4) > 0) um_3();else zero_3();
-if( (B3[idx] & 2) > 0) um_3();else zero_3();
-if( (B3[idx] & 1) > 0) um_3();else zero_3();
-}
-void SendBuffCh4(uint8_t idx ){
-
-if( (G4[idx] & 128) > 0) um_4();else zero_4();
-if( (G4[idx] & 64) > 0) um_4();else zero_4();
-if( (G4[idx] & 32) > 0) um_4();else zero_4();
-if( (G4[idx] & 16) > 0) um_4();else zero_4();
-if( (G4[idx] & 8) > 0) um_4();else zero_4();
-if( (G4[idx] & 4) > 0) um_4();else zero_4();
-if( (G4[idx] & 2) > 0) um_4();else zero_4();
-if( (G4[idx] & 1) > 0) um_4();else zero_4();
-
-if( (R4[idx] & 128) > 0) um_4();else zero_4();
-if( (R4[idx] & 64) > 0) um_4();else zero_4();
-if( (R4[idx] & 32) > 0) um_4();else zero_4();
-if( (R4[idx] & 16) > 0) um_4();else zero_4();
-if( (R4[idx] & 8) > 0) um_4();else zero_4();
-if( (R4[idx] & 4) > 0) um_4();else zero_4();
-if( (R4[idx] & 2) > 0) um_4();else zero_4();
-if( (R4[idx] & 1) > 0) um_4();else zero_4();
-
-if( (B4[idx] & 128) > 0) um_4();else zero_4();
-if( (B4[idx] & 64) > 0) um_4();else zero_4();
-if( (B4[idx] & 32) > 0) um_4();else zero_4();
-if( (B4[idx] & 16) > 0) um_4();else zero_4();
-if( (B4[idx] & 8) > 0) um_4();else zero_4();
-if( (B4[idx] & 4) > 0) um_4();else zero_4();
-if( (B4[idx] & 2) > 0) um_4();else zero_4();
-if( (B4[idx] & 1) > 0) um_4();else zero_4();
-}
-void SendBuffCh5(uint8_t idx ){
-
-if( (G5[idx] & 128) > 0) um_5();else zero_5();
-if( (G5[idx] & 64) > 0) um_5();else zero_5();
-if( (G5[idx] & 32) > 0) um_5();else zero_5();
-if( (G5[idx] & 16) > 0) um_5();else zero_5();
-if( (G5[idx] & 8) > 0) um_5();else zero_5();
-if( (G5[idx] & 4) > 0) um_5();else zero_5();
-if( (G5[idx] & 2) > 0) um_5();else zero_5();
-if( (G5[idx] & 1) > 0) um_5();else zero_5();
-
-if( (R5[idx] & 128) > 0) um_5();else zero_5();
-if( (R5[idx] & 64) > 0) um_5();else zero_5();
-if( (R5[idx] & 32) > 0) um_5();else zero_5();
-if( (R5[idx] & 16) > 0) um_5();else zero_5();
-if( (R5[idx] & 8) > 0) um_5();else zero_5();
-if( (R5[idx] & 4) > 0) um_5();else zero_5();
-if( (R5[idx] & 2) > 0) um_5();else zero_5();
-if( (R5[idx] & 1) > 0) um_5();else zero_5();
-
-if( (B5[idx] & 128) > 0) um_5();else zero_5();
-if( (B5[idx] & 64) > 0) um_5();else zero_5();
-if( (B5[idx] & 32) > 0) um_5();else zero_5();
-if( (B5[idx] & 16) > 0) um_5();else zero_5();
-if( (B5[idx] & 8) > 0) um_5();else zero_5();
-if( (B5[idx] & 4) > 0) um_5();else zero_5();
-if( (B5[idx] & 2) > 0) um_5();else zero_5();
-if( (B5[idx] & 1) > 0) um_5();else zero_5();
-}
-void SendBuffCh6(uint8_t idx ){
-
-if( (G6[idx] & 128) > 0) um_6();else zero_6();
-if( (G6[idx] & 64) > 0) um_6();else zero_6();
-if( (G6[idx] & 32) > 0) um_6();else zero_6();
-if( (G6[idx] & 16) > 0) um_6();else zero_6();
-if( (G6[idx] & 8) > 0) um_6();else zero_6();
-if( (G6[idx] & 4) > 0) um_6();else zero_6();
-if( (G6[idx] & 2) > 0) um_6();else zero_6();
-if( (G6[idx] & 1) > 0) um_6();else zero_6();
-
-if( (R6[idx] & 128) > 0) um_6();else zero_6();
-if( (R6[idx] & 64) > 0) um_6();else zero_6();
-if( (R6[idx] & 32) > 0) um_6();else zero_6();
-if( (R6[idx] & 16) > 0) um_6();else zero_6();
-if( (R6[idx] & 8) > 0) um_6();else zero_6();
-if( (R6[idx] & 4) > 0) um_6();else zero_6();
-if( (R6[idx] & 2) > 0) um_6();else zero_6();
-if( (R6[idx] & 1) > 0) um_6();else zero_6();
-
-if( (B6[idx] & 128) > 0) um_6();else zero_6();
-if( (B6[idx] & 64) > 0) um_6();else zero_6();
-if( (B6[idx] & 32) > 0) um_6();else zero_6();
-if( (B6[idx] & 16) > 0) um_6();else zero_6();
-if( (B6[idx] & 8) > 0) um_6();else zero_6();
-if( (B6[idx] & 4) > 0) um_6();else zero_6();
-if( (B6[idx] & 2) > 0) um_6();else zero_6();
-if( (B6[idx] & 1) > 0) um_6();else zero_6();
+if( (CH0[idx_color3] & 128) > 0) um_0();else zero_0();
+if( (CH0[idx_color3] & 64) > 0) um_0();else zero_0();
+if( (CH0[idx_color3] & 32) > 0) um_0();else zero_0();
+if( (CH0[idx_color3] & 16) > 0) um_0();else zero_0();
+if( (CH0[idx_color3] & 8) > 0) um_0();else zero_0();
+if( (CH0[idx_color3] & 4) > 0) um_0();else zero_0();
+if( (CH0[idx_color3] & 2) > 0) um_0();else zero_0();
+if( (CH0[idx_color3] & 1) > 0) um_0();else zero_0();
 }
 
-# 405
+# 444
 void SetLED(uint8_t channel, uint8_t type, uint8_t led, uint8_t color1, uint8_t color2, uint8_t color3){
 
 uint8_t red, green, blue;
@@ -9591,39 +9377,17 @@ green = color3;
 blue = color2;
 }
 
+
 if(channel == 0){
 R0[led]=red;
 G0[led]=green;
 B0[led]=blue;
 }
-else if(channel == 1){
-R1[led]=red;
-G1[led]=green;
-B1[led]=blue;
-}
-else if(channel == 2){
-R2[led]=red;
-G2[led]=green;
-B2[led]=blue;
-}
-else if(channel == 3){
-R3[led]=red;
-G3[led]=green;
-B3[led]=blue;
-}
-else if(channel == 4){
-R4[led]=red;
-G4[led]=green;
-B4[led]=blue;
-}
-else if(channel == 5){
-R5[led]=red;
-G5[led]=green;
-B5[led]=blue;
-}
+
+# 495
 }
 
-# 456
+# 501
 void TestLEDs(){
 }
 
@@ -9638,20 +9402,8 @@ void AppTimer100ms(){
 
 
 void AppTimer10ms(){
-static int cnt=0;
 
-if(send_ch0){
-if(cnt<ch0_len){
-EUSART1_Write(CH0[cnt]);
-cnt++;
-}
-else {
-cnt=0;
-send_ch0 = 0;
-}
-}
-
-
+# 533
 }
 
 
@@ -9659,43 +9411,16 @@ send_ch0 = 0;
 void AppTimer1ms(){
 
 if(ShootLedsCh0 == 1){
-for(Idx=0; Idx < 7; Idx++)
-SendBuffCh0(Idx);
+for(Idx=0; Idx < ch0_len; Idx+=3){
+SendBuffCh0(Idx, Idx+1, Idx+2);
+}
 ShootLedsCh0 = 0;
 }
-if(ShootLedsCh1 == 1){
-for(Idx=0; Idx < 7; Idx++)
-SendBuffCh1(Idx);
-ShootLedsCh1 = 0;
-}
-if(ShootLedsCh2 == 1){
-for(Idx=0; Idx < 64; Idx++)
-SendBuffCh2(Idx);
-ShootLedsCh2 = 0;
-}
-if(ShootLedsCh3 == 1){
-for(Idx=0; Idx < 64; Idx++)
-SendBuffCh3(Idx);
-ShootLedsCh3 = 0;
-}
-if(ShootLedsCh4 == 1){
-for(Idx=0; Idx < 64; Idx++)
-SendBuffCh4(Idx);
-ShootLedsCh4 = 0;
-}
-if(ShootLedsCh5 == 1){
-for(Idx=0; Idx < 64; Idx++)
-SendBuffCh5(Idx);
-ShootLedsCh5 = 0;
-}
-if(ShootLedsCh6 == 1){
-for(Idx=0; Idx < 64; Idx++)
-SendBuffCh6(Idx);
-ShootLedsCh6 = 0;
-}
+
+# 581
 }
 
-# 531
+# 587
 void AppTimer30us(void) {
 static int count1ms = 4;
 static int count10ms = 9;
@@ -9726,30 +9451,26 @@ AppTimer1s();
 
 }
 
-# 567
+# 623
 void AppINT_USART1_RX(unsigned char rxData)
 {
-static int Idx2, Idx3;
+
 static int len_package = 0;
 static bool capturando = 0;
 
-
+EUSART1_Write(Idx3);
 
 if(capturando){
-
-
 CH0[Idx3] = rxData;
 
-# 584
-if(Idx2 > (len_package)){
+if(Idx2 > len_package){
 capturando=0;
 Idx2 = 0;
 Idx3 = 0;
-send_ch0 = 1;
-}
 
+ShootLedsCh0 = 1;
 }
-
+}
 
 Buffer[Idx2]= rxData;
 if(Buffer[Idx2] == 254 && !capturando){
@@ -9758,7 +9479,6 @@ len_package= Buffer[Idx2-1];
 ch0_len = len_package;
 type= Buffer[Idx2-2];
 channel= Buffer[Idx2-3];
-
 capturando = 1;
 Idx2 = 2;
 Idx3 = 0;
@@ -9766,9 +9486,9 @@ Idx3 = 0;
 }
 else{
 Idx2++;
-Idx3++;
-
 }
+if(capturando)
+Idx3++;
 
 }
 
