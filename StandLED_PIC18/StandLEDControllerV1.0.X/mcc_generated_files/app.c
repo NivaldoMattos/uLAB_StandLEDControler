@@ -28,8 +28,8 @@ static uint8_t Buffer[MY_RX_BUFFER_SIZE];
 
 // Sao 50 chips enderecaveis em 5 metros da fita de LED IX1903b
 
-# define MAX_LEDS_CH0 64
-# define MAX_LEDS_CH1 64
+# define MAX_LEDS_CH0 7
+# define MAX_LEDS_CH1 7
 # define MAX_LEDS_CH2 64
 # define MAX_LEDS_CH3 64
 # define MAX_LEDS_CH4 64
@@ -531,9 +531,41 @@ void AppTimer30us(void)  {
             }
         }
     }       
- }
+
+}
 
 
+void AppINT_USART1_RX(unsigned char rxData)
+{    
+    uint8_t channel, pos, red, green, blue, cmd , type, c;
+    static int Idx2 =  0;
+    
+    
+    Buffer[Idx2]= rxData;
+    if(Buffer[Idx2] == 255){ 
+        LED_Toggle();
+        while(Idx2>2){
+            SetLED(1, RBG, Idx2, Buffer[Idx2] , Buffer[Idx2-1] , Buffer[Idx2-2]);
+            Idx2-=2;
+        }
+        ShootLedsCh1 = 1;
+        Idx2=0;
+         
+    }
+    else if(Buffer[Idx] == 254){
+        LED_Toggle();
+        while(Idx2>2){
+            SetLED(1, RBG, Idx2, Buffer[Idx2] , Buffer[Idx2-1] , Buffer[Idx2-2]);
+            Idx2-=2;
+        }
+        ShootLedsCh1 = 1;
+        Idx2=0;
+    }
+    else
+        Idx2 += 1;
+    
+    
+}
 //------------------------------------------------------------------------------
 // Interrupcao de recepcao serial
 
@@ -545,6 +577,7 @@ void AppTimer30us(void)  {
 // cmd(0-10)  end_code(255)
 // Frmt:  0      255
 //------------------------------------------------------------------------------
+/*
 void AppINT_USART1_RX(unsigned char rxData)
 {    
     uint8_t channel, pos, red, green, blue, cmd , type, c;
@@ -619,6 +652,7 @@ void AppINT_USART1_RX(unsigned char rxData)
     else  
       Idx += 1;
 }
+  */
 //------------------------------------------------------------------------------
 //End of File
 //--------------

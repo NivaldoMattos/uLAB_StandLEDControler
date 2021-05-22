@@ -9249,17 +9249,17 @@ void EUSART1_Transmit_ISR(void);
 # 182
 void EUSART1_Receive_ISR(void);
 
-# 25 "mcc_generated_files/app.c"
+# 27 "mcc_generated_files/app.c"
 static uint8_t Buffer[16];
 
-# 40
-static uint8_t R0[64];
-static uint8_t G0[64];
-static uint8_t B0[64];
+# 42
+static uint8_t R0[7];
+static uint8_t G0[7];
+static uint8_t B0[7];
 
-static uint8_t R1[64];
-static uint8_t G1[64];
-static uint8_t B1[64];
+static uint8_t R1[7];
+static uint8_t G1[7];
+static uint8_t B1[7];
 
 static uint8_t R2[64];
 static uint8_t G2[64];
@@ -9307,14 +9307,14 @@ INTCON2bits.INTEDG0 = 1;
 
 }
 
-# 98
+# 100
 void AppProcess(void){
 while(1){
 
 }
 }
 
-# 131
+# 133
 void um_0(){ LATB0 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
 __nop();__nop();__nop();__nop();__nop();__nop();
 __nop();__nop();__nop(); LATB0 = 0;
@@ -9364,7 +9364,7 @@ __nop();__nop();__nop(); LATB5 = 0;
 void zero_6(){ LATB5 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
 LATB5 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
 
-# 185
+# 187
 void SendBuffCh0(uint8_t idx ){
 
 if( (G0[idx] & 128) > 0) um_0();else zero_0();
@@ -9569,7 +9569,7 @@ if( (B6[idx] & 2) > 0) um_6();else zero_6();
 if( (B6[idx] & 1) > 0) um_6();else zero_6();
 }
 
-# 393
+# 395
 void SetLED(uint8_t channel, uint8_t type, uint8_t led, uint8_t color1, uint8_t color2, uint8_t color3){
 
 uint8_t red, green, blue;
@@ -9617,7 +9617,7 @@ B5[led]=blue;
 }
 }
 
-# 444
+# 446
 void TestLEDs(){
 }
 
@@ -9639,12 +9639,12 @@ void AppTimer10ms(){
 void AppTimer1ms(){
 
 if(ShootLedsCh0 == 1){
-for(Idx=0; Idx < 64; Idx++)
+for(Idx=0; Idx < 7; Idx++)
 SendBuffCh0(Idx);
 ShootLedsCh0 = 0;
 }
 if(ShootLedsCh1 == 1){
-for(Idx=0; Idx < 64; Idx++)
+for(Idx=0; Idx < 7; Idx++)
 SendBuffCh1(Idx);
 ShootLedsCh1 = 0;
 }
@@ -9675,7 +9675,7 @@ ShootLedsCh6 = 0;
 }
 }
 
-# 505
+# 507
 void AppTimer30us(void) {
 static int count1ms = 4;
 static int count10ms = 9;
@@ -9703,81 +9703,39 @@ AppTimer1s();
 }
 }
 }
+
 }
 
-# 546
+
 void AppINT_USART1_RX(unsigned char rxData)
 {
 uint8_t channel, pos, red, green, blue, cmd , type, c;
-EUSART1_Write(rxData);
-Buffer[Idx]= rxData;
+static int Idx2 = 0;
 
-static int data_cnt;
-data_cnt++;
 
-if(Buffer[Idx] == 255){
-
-if(data_cnt==7){
-
-channel = Buffer[Idx-6];
-type = Buffer[Idx-5];
-pos = Buffer[Idx-4];
-red= Buffer[Idx-3];
-green = Buffer[Idx-2];
-blue = Buffer[Idx-1];
-
-Idx = 0;
-
-SetLED(channel, type, pos, red, green, blue);
-
-if(channel==0) ShootLedsCh0 = 1;
-else if(channel==1) ShootLedsCh1 = 1;
-else if(channel==2) ShootLedsCh2 = 1;
-else if(channel==3) ShootLedsCh3 = 1;
-else if(channel==4) ShootLedsCh4 = 1;
-else if(channel==5) ShootLedsCh5 = 1;
-IdxFrame = 0;
-
-data_cnt=0;
-
-}
-if(data_cnt==2){
-
-cmd = Buffer[Idx-1];
-Idx = 0;
-
-if(cmd==0){
+Buffer[Idx2]= rxData;
+if(Buffer[Idx2] == 255){
 do { LATC3 = ~LATC3; } while(0);
-for(int c=0; c< 50; c++){
-SetLED(0, 0, c, 10 , 0 , 0);
-SetLED(1, 1, c, 10 , 0 , 0);
+while(Idx2>2){
+SetLED(1, 0, Idx2, Buffer[Idx2] , Buffer[Idx2-1] , Buffer[Idx2-2]);
+Idx2-=2;
 }
-ShootLedsCh0 = 1;
 ShootLedsCh1 = 1;
-}
-else if(cmd==1){
-do { LATC3 = ~LATC3; } while(0);
-for(int c=0; c< 50; c++){
-SetLED(0, 0, c, 0 , 10 , 0);
-SetLED(1, 1, c, 0 , 10 , 0);
-}
-ShootLedsCh0 = 1;
-ShootLedsCh1 = 1;
-}
-else if(cmd==2){
-do { LATC3 = ~LATC3; } while(0);
-for(int c=0; c< 50; c++){
-SetLED(0, 0, c, 0 , 0 , 10);
-SetLED(1, 1, c, 0 , 0 , 10);
-}
-ShootLedsCh0 = 1;
-ShootLedsCh1 = 1;
-}
+Idx2=0;
 
-data_cnt=0;
 }
+else if(Buffer[Idx] == 254){
+do { LATC3 = ~LATC3; } while(0);
+while(Idx2>2){
+SetLED(1, 0, Idx2, Buffer[Idx2] , Buffer[Idx2-1] , Buffer[Idx2-2]);
+Idx2-=2;
+}
+ShootLedsCh1 = 1;
+Idx2=0;
 }
 else
-Idx += 1;
+Idx2 += 1;
+
+
 }
 
