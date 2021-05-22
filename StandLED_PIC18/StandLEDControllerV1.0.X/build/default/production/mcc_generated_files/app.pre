@@ -9073,7 +9073,7 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 22 "mcc_generated_files/pin_manager.h"
+# 28 "mcc_generated_files/pin_manager.h"
 void PIN_MANAGER_Initialize(void);
 void PIN_MANAGER_IOC(void);
 
@@ -9250,9 +9250,11 @@ void EUSART1_Transmit_ISR(void);
 void EUSART1_Receive_ISR(void);
 
 # 27 "mcc_generated_files/app.c"
-static uint8_t Buffer[16];
+static uint8_t Buffer[128];
 
 # 42
+static uint8_t CH0[7];
+
 static uint8_t R0[7];
 static uint8_t G0[7];
 static uint8_t B0[7];
@@ -9294,9 +9296,13 @@ uint8_t IdxFrame = 0;
 
 bool ftest = 1;
 
+int channel = 0;
+int type = 0;
 
+int ch0_len = 0;
+bool send_ch0 = 0;
 
-
+# 96
 void AppInitialize(void)
 {
 
@@ -9307,14 +9313,14 @@ INTCON2bits.INTEDG0 = 1;
 
 }
 
-# 100
+# 110
 void AppProcess(void){
 while(1){
 
 }
 }
 
-# 133
+# 143
 void um_0(){ LATB0 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
 __nop();__nop();__nop();__nop();__nop();__nop();
 __nop();__nop();__nop(); LATB0 = 0;
@@ -9364,7 +9370,7 @@ __nop();__nop();__nop(); LATB5 = 0;
 void zero_6(){ LATB5 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
 LATB5 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
 
-# 187
+# 197
 void SendBuffCh0(uint8_t idx ){
 
 if( (G0[idx] & 128) > 0) um_0();else zero_0();
@@ -9569,7 +9575,7 @@ if( (B6[idx] & 2) > 0) um_6();else zero_6();
 if( (B6[idx] & 1) > 0) um_6();else zero_6();
 }
 
-# 395
+# 405
 void SetLED(uint8_t channel, uint8_t type, uint8_t led, uint8_t color1, uint8_t color2, uint8_t color3){
 
 uint8_t red, green, blue;
@@ -9617,7 +9623,7 @@ B5[led]=blue;
 }
 }
 
-# 446
+# 456
 void TestLEDs(){
 }
 
@@ -9632,6 +9638,20 @@ void AppTimer100ms(){
 
 
 void AppTimer10ms(){
+static int cnt=0;
+
+if(send_ch0){
+if(cnt<ch0_len){
+EUSART1_Write(CH0[cnt]);
+cnt++;
+}
+else {
+cnt=0;
+send_ch0 = 0;
+}
+}
+
+
 }
 
 
@@ -9675,7 +9695,7 @@ ShootLedsCh6 = 0;
 }
 }
 
-# 507
+# 531
 void AppTimer30us(void) {
 static int count1ms = 4;
 static int count10ms = 9;
@@ -9706,36 +9726,49 @@ AppTimer1s();
 
 }
 
-
+# 567
 void AppINT_USART1_RX(unsigned char rxData)
 {
-uint8_t channel, pos, red, green, blue, cmd , type, c;
-static int Idx2 = 0;
+static int Idx2, Idx3;
+static int len_package = 0;
+static bool capturando = 0;
+
+
+
+if(capturando){
+
+
+CH0[Idx3] = rxData;
+
+# 584
+if(Idx2 > (len_package)){
+capturando=0;
+Idx2 = 0;
+Idx3 = 0;
+send_ch0 = 1;
+}
+
+}
 
 
 Buffer[Idx2]= rxData;
-if(Buffer[Idx2] == 255){
-do { LATC3 = ~LATC3; } while(0);
-while(Idx2>2){
-SetLED(1, 0, Idx2, Buffer[Idx2] , Buffer[Idx2-1] , Buffer[Idx2-2]);
-Idx2-=2;
+if(Buffer[Idx2] == 254 && !capturando){
+if(Buffer[Idx2-4]== 85){
+len_package= Buffer[Idx2-1];
+ch0_len = len_package;
+type= Buffer[Idx2-2];
+channel= Buffer[Idx2-3];
+
+capturando = 1;
+Idx2 = 2;
+Idx3 = 0;
 }
-ShootLedsCh1 = 1;
-Idx2=0;
+}
+else{
+Idx2++;
+Idx3++;
 
 }
-else if(Buffer[Idx] == 254){
-do { LATC3 = ~LATC3; } while(0);
-while(Idx2>2){
-SetLED(1, 0, Idx2, Buffer[Idx2] , Buffer[Idx2-1] , Buffer[Idx2-2]);
-Idx2-=2;
-}
-ShootLedsCh1 = 1;
-Idx2=0;
-}
-else
-Idx2 += 1;
-
 
 }
 

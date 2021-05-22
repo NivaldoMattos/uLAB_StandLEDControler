@@ -7089,8 +7089,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;eusart1.h: 140: void EUSART1_Write(uint8_t txData);
 [; ;eusart1.h: 161: void EUSART1_Transmit_ISR(void);
 [; ;eusart1.h: 182: void EUSART1_Receive_ISR(void);
-[; ;pin_manager.h: 22: void PIN_MANAGER_Initialize(void);
-[; ;pin_manager.h: 23: void PIN_MANAGER_IOC(void);
+[; ;pin_manager.h: 28: void PIN_MANAGER_Initialize(void);
+[; ;pin_manager.h: 29: void PIN_MANAGER_IOC(void);
 [; ;app.h: 15: void AppInitialize(void);
 [; ;app.h: 16: void AppProcess(void);
 [; ;app.h: 17: void AppTimer100us(void);

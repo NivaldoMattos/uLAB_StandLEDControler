@@ -23,7 +23,7 @@
 #include "pin_manager.h"
 #include "eusart1.h"
 //------------------------------------------------------------------------------
-#define MY_RX_BUFFER_SIZE 16
+#define MY_RX_BUFFER_SIZE 128
 static uint8_t Buffer[MY_RX_BUFFER_SIZE];
 
 // Sao 50 chips enderecaveis em 5 metros da fita de LED IX1903b
@@ -38,6 +38,8 @@ static uint8_t Buffer[MY_RX_BUFFER_SIZE];
 
 # define RBG 0
 # define GBR 1
+
+static uint8_t CH0[MAX_LEDS_CH0]; 
 
 static uint8_t R0[MAX_LEDS_CH0]; 
 static uint8_t G0[MAX_LEDS_CH0]; 
@@ -79,6 +81,14 @@ uint8_t Idx = 0;
 uint8_t IdxFrame = 0;
 
 bool  ftest = true;
+
+int channel = 0;
+int type = RBG;
+
+int ch0_len = 0;
+bool send_ch0 = false;
+
+
 
 //------------------------------------------------------------------------------
 //  Inicializa��o
@@ -457,6 +467,20 @@ void AppTimer100ms(){
 // Interrompe a cada 10ms
 //------------------------
 void AppTimer10ms(){
+    static int cnt=0;
+    
+    if(send_ch0){
+        if(cnt<ch0_len){
+            EUSART1_Write(CH0[cnt]);
+            cnt++;
+        }
+        else {
+            cnt=0;
+            send_ch0 = false;
+        }
+    }
+    
+     
 }
 //------------------------
 // Interrompe a cada 1ms
@@ -534,38 +558,60 @@ void AppTimer30us(void)  {
 
 }
 
-
+//------------------------------------------------------------------------------
+// Interrupcao de recepcao serial
+// Formato de pacote de entrada:
+//          preamb chann type len_pay strt_pay dt0 dt1    dtn
+// DadosRx = [85,    1,    1,    8,      254,   1,  2...  11]
+//------------------------------------------------------------------------------
 void AppINT_USART1_RX(unsigned char rxData)
 {    
-    uint8_t channel, pos, red, green, blue, cmd , type, c;
-    static int Idx2 =  0;
+    static int Idx2, Idx3;
+    static int len_package = 0;
+    static bool capturando = false;
+    
+   
+    
+    if(capturando){
+        
+        
+        CH0[Idx3] = rxData; 
+        
+       // EUSART1_Write(CH0[Idx3]);
+        
+       // EUSART1_Write(Idx3);
+        
+        if(Idx2 > (len_package)){
+            capturando=false;
+            Idx2 = 0;
+            Idx3 = 0;
+            send_ch0 = true;
+       }
+        
+    }
     
     
     Buffer[Idx2]= rxData;
-    if(Buffer[Idx2] == 255){ 
-        LED_Toggle();
-        while(Idx2>2){
-            SetLED(1, RBG, Idx2, Buffer[Idx2] , Buffer[Idx2-1] , Buffer[Idx2-2]);
-            Idx2-=2;
+    if(Buffer[Idx2] == 254 && !capturando){
+        if(Buffer[Idx2-4]== 85){
+            len_package= Buffer[Idx2-1];
+            ch0_len = len_package; 
+            type= Buffer[Idx2-2];
+            channel= Buffer[Idx2-3];
+            //EUSART1_Write(channel);
+            capturando = true;
+            Idx2 = 2;
+            Idx3 = 0;
         }
-        ShootLedsCh1 = 1;
-        Idx2=0;
-         
     }
-    else if(Buffer[Idx] == 254){
-        LED_Toggle();
-        while(Idx2>2){
-            SetLED(1, RBG, Idx2, Buffer[Idx2] , Buffer[Idx2-1] , Buffer[Idx2-2]);
-            Idx2-=2;
-        }
-        ShootLedsCh1 = 1;
-        Idx2=0;
+    else{
+       Idx2++;
+       Idx3++;
+       
     }
-    else
-        Idx2 += 1;
-    
     
 }
+ 
 //------------------------------------------------------------------------------
 // Interrupcao de recepcao serial
 

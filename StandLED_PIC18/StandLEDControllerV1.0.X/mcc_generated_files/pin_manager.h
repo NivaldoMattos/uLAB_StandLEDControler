@@ -16,6 +16,12 @@
 #define LED_SetLow()        do { LATC3 = 0; } while(0)
 #define LED_Toggle()        do { LATC3 = ~LATC3; } while(0)
 #define LED_SetOutput()     do { TRISC3 = 0; } while(0)
+
+#define B3_SetHigh()       do { LATB3 = 1; } while(0)
+#define B3_SetLow()        do { LATB3 = 0; } while(0)
+#define B3_Toggle()        do { LATB3 = ~LATB3; } while(0)
+#define B3_SetOutput()     do { TRISB3 = 0; } while(0)
+
 //---------------------------------------------------------
 
 //---------------------

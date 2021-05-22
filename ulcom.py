@@ -11,6 +11,7 @@ import winsound
 
 Port = "COMx"
 Baud = "BAUD"
+
 LED_BuiltInState = False
 comport = serial.Serial()
 
@@ -119,6 +120,16 @@ class Leds:
 # ----------------------------------------------------------------------------------
 #  Funções para o acesso da porta serial
 # ----------------------------------------------------------------------------------
+def open():
+    global comport, Port, Baud
+    if not comport.is_open:
+        try:
+            comport = serial.Serial(port=Port, baudrate=Baud)
+        except IOError:
+            comport.close()
+            comport.open()
+
+
 def open():
     global comport, Port, Baud
     if not comport.is_open:

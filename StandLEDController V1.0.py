@@ -19,9 +19,18 @@ Master = Tk()
 
 ON = True
 OFF = False
+
+LED_SEQ_RBG = 0
+LED_SEQ_GBR = 1
+PREAMB      = 85   # 0x55
+STRT_PAY    = 254  # 0xFE
+
+
 SearchingPorts = True
 GetTemperatureFlag = False
 x="Teste"
+
+
 
 
 # -----------------------------------------------------------------------------------
@@ -75,7 +84,10 @@ def f_searching_ports():
 
 def f1():
     if ulcom.is_open():
-        DadosTx = [10, 20, 30, 10, 20, 30, 10, 20, 30, 255]
+
+        channel = 0
+        data_len = 6
+        DadosTx = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY, 0, 0, 0, 10, 10, 10]
         SendData(DadosTx)
     else:
         ask_to_open_port()
@@ -83,7 +95,9 @@ def f1():
 
 def f2():
     if ulcom.is_open():
-        DadosTx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 254]
+        channel = 0
+        data_len = 9
+        DadosTx = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY, 200, 200, 200, 10, 25, 10, 15, 15, 15]
         SendData(DadosTx)
     else:
         ask_to_open_port()
@@ -97,10 +111,7 @@ def f3():
 
 
 def f4():
-    if ulcom.is_open():
-        print("Teste4")
-    else:
-        ask_to_open_port()
+    ulcom.OpenCom("COM4", "115200")
 
 
 def f5():
@@ -203,6 +214,7 @@ searching_ports.start()
 message = ulcom.Message(Master)
 
 LEDs = ulcom.Leds(Master)
+
 
 # Configuraes da tela Master
 Master.title("Python COM-Port Explorer")
