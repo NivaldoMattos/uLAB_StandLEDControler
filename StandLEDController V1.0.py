@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------------
-# A-21: Python COM-Port Explorer P1 - P6
+# Controlador para os LEDs da bancada uLAB
 # Dev: N.M.
-# Data: 22/10/2020
+# Data: 23/05/2021
 # Referencias:# uLab Eletronica
 # https://github.com/NivaldoMattos/Curso-de-Python-com-Interface-Grafica
 # -----------------------------------------------------------------------------------
@@ -25,18 +25,36 @@ LED_SEQ_GBR = 1
 PREAMB      = 85   # 0x55
 STRT_PAY    = 254  # 0xFE
 
-
 SearchingPorts = True
 GetTemperatureFlag = False
 x="Teste"
 
+channel = 1
 
+# Bancada_superior
+Top_bench_back = [1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  
+1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,
+1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1]
 
+# Bancada_superior
+Top_bench_edge = [1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  
+1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,
+1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1]
+
+# Torres de suporte da bancada superior 
+Tower_1 = [1, 1, 1,  1, 1, 1,  1, 1, 1]
+Tower_2 = [1, 1, 1,  1, 1, 1,  1, 1, 1]
+Tower_3 = [1, 1, 1,  1, 1, 1,  1, 1, 1]
+Tower_4 = [1, 1, 1,  1, 1, 1,  1, 1, 1]
+
+# Bancada_inferior
+Bench_edge = [1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  
+1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,
+1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1,  1, 1, 1]
 
 # -----------------------------------------------------------------------------------
 # Funções
 # -----------------------------------------------------------------------------------
-
 def ask_to_open_port():
     message.botton("Please, Open the Serial Port!", "yellow", beep=True)
 
@@ -51,7 +69,7 @@ def send_byte(byte):
 
 def SendData(DadosConf, DadosLEDs):
 
-    print(len(DadosConf))
+    print(DadosConf[1])
     print(len(DadosLEDs))
     
     for idx in range(0, len(DadosConf)):
@@ -87,19 +105,20 @@ def f_searching_ports():
 
 
 def f1():
+    global channel
     if ulcom.is_open():
-        channel = 2
-        data_len = 21
-        DadosConf = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY]
-        DadosLEDs = [10, 10, 10, 10, 10, 10,10, 10, 10, 10,10, 10, 10,10 , 10, 10, 10, 10, 10, 10, 10]
+
+        DadosLEDs = Bench_edge
+        DadosConf = [PREAMB, channel, LED_SEQ_GBR, len(DadosLEDs), STRT_PAY]
         SendData(DadosConf, DadosLEDs)
     else:
         ask_to_open_port()
 
 
 def f2():
+    global channel
     if ulcom.is_open():
-        channel = 2
+        #channel = 1
         data_len = 21
         DadosConf = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY]
         DadosLEDs = [0, 0, 10, 0, 10, 0, 10, 0, 0, 10,0, 10, 10,10 , 0, 0, 10, 10, 10, 10, 60]
@@ -109,30 +128,38 @@ def f2():
 
 
 def f3():
+    global channel
     if ulcom.is_open():
-        channel = 2
+        #channel = 3
         data_len = 21
         DadosConf = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY]
-        DadosLEDs = [ 0, 10, 0, 0, 10, 0, 0, 10, 0,0, 10, 0,0 , 10, 0, 0, 10, 0, 50, 0,50]
+        DadosLEDs = [0, 10, 0, 10, 0, 10, 0, 0, 10,0, 10, 10,10 , 0, 0, 10, 10, 10, 10, 60, 0]       
         SendData(DadosConf, DadosLEDs)
     else:
         ask_to_open_port()
 
 
 def f4():
+    global channel
     if ulcom.is_open():
-        channel = 2
+        #channel = 3
         data_len = 21
         DadosConf = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY]
-        DadosLEDs = [10, 0, 0, 10, 0, 0, 10, 0,0, 10, 0,0 , 10, 0, 0, 10, 0, 0, 0, 50, 50]
+        DadosLEDs = [10, 0, 10, 0, 10, 0, 0, 10,0, 10, 10,10 , 0, 0, 10, 10, 10, 10, 60, 0, 0]        
         SendData(DadosConf, DadosLEDs)
     else:
         ask_to_open_port()
 
 
 def f5():
-    global SearchingPorts
+    global SearchingPorts, channel
     SearchingPorts = True
+    
+    if channel < 7:
+        channel = channel+1
+    else:
+        channel = 0
+    print("Canal:", channel)
 
 
 def f6():

@@ -12,7 +12,7 @@ void PIN_MANAGER_Initialize(void) {
     WPUB =   0b00000000; 
     //----------------
     LATC =   0b00000000;
-    TRISC =  0b10000010;    
+    TRISC =  0b10000000;    
     ANSELC = 0b00000000;
     //---------------------------------
     INTCON2bits.nRBPU = 0x01;  // Habilita os pinos Pull-Up selecionados
