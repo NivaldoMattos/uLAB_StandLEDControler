@@ -49,15 +49,19 @@ def send_byte(byte):
         ask_to_open_port()
 
 
-def SendData(DadosTx):
-    terminator = 255
-    #DadosTx = [channel, rgb_seq, pos, red, green, blue, terminator]
-    
-    print(len(DadosTx))
+def SendData(DadosConf, DadosLEDs):
 
-    for idx in range(0, len(DadosTx)):
-        send_byte(DadosTx[idx])
+    print(len(DadosConf))
+    print(len(DadosLEDs))
+    
+    for idx in range(0, len(DadosConf)):
+        send_byte(DadosConf[idx])
         #sleep(0.01)
+    
+    for idx in range(0, len(DadosLEDs)):
+        send_byte(DadosLEDs[idx])
+        #sleep(0.01)
+
     sleep(0.001)
 
 
@@ -84,34 +88,46 @@ def f_searching_ports():
 
 def f1():
     if ulcom.is_open():
-
-        channel = 1
+        channel = 2
         data_len = 21
-        DadosTx = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        SendData(DadosTx)
+        DadosConf = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY]
+        DadosLEDs = [10, 10, 10, 10, 10, 10,10, 10, 10, 10,10, 10, 10,10 , 10, 10, 10, 10, 10, 10, 10]
+        SendData(DadosConf, DadosLEDs)
     else:
         ask_to_open_port()
 
 
 def f2():
     if ulcom.is_open():
-        channel = 1
+        channel = 2
         data_len = 21
-        DadosTx = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY, 0, 10, 2, 50, 6, 1, 100, 0,0, 2, 50, 6, 2, 50, 6, 2, 50, 6, 2, 50, 6]
-        SendData(DadosTx)
+        DadosConf = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY]
+        DadosLEDs = [0, 0, 10, 0, 10, 0, 10, 0, 0, 10,0, 10, 10,10 , 0, 0, 10, 10, 10, 10, 60]
+        SendData(DadosConf, DadosLEDs)
     else:
         ask_to_open_port()
 
 
 def f3():
     if ulcom.is_open():
-        print("Teste3")
+        channel = 2
+        data_len = 21
+        DadosConf = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY]
+        DadosLEDs = [ 0, 10, 0, 0, 10, 0, 0, 10, 0,0, 10, 0,0 , 10, 0, 0, 10, 0, 50, 0,50]
+        SendData(DadosConf, DadosLEDs)
     else:
         ask_to_open_port()
 
 
 def f4():
-    ulcom.OpenCom("COM4", "115200")
+    if ulcom.is_open():
+        channel = 2
+        data_len = 21
+        DadosConf = [PREAMB, channel, LED_SEQ_RBG, data_len, STRT_PAY]
+        DadosLEDs = [10, 0, 0, 10, 0, 0, 10, 0,0, 10, 0,0 , 10, 0, 0, 10, 0, 0, 0, 50, 50]
+        SendData(DadosConf, DadosLEDs)
+    else:
+        ask_to_open_port()
 
 
 def f5():

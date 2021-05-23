@@ -9249,62 +9249,58 @@ void EUSART1_Transmit_ISR(void);
 # 182
 void EUSART1_Receive_ISR(void);
 
-# 27 "mcc_generated_files/app.c"
+# 24 "mcc_generated_files/app.c"
 static uint8_t Buffer[128];
 
-# 42
+# 39
 static uint8_t CH0[7];
+static uint8_t CH1[64];
+static uint8_t CH2[64];
 
-static uint8_t R0[7];
-static uint8_t G0[7];
-static uint8_t B0[7];
 
-static uint8_t R1[7];
-static uint8_t G1[7];
-static uint8_t B1[7];
+bool ShootLedsCh0 = 0;
+bool ShootLedsCh1 = 0;
+bool ShootLedsCh2 = 0;
+bool ShootLedsCh3 = 0;
+bool ShootLedsCh4 = 0;
+bool ShootLedsCh5 = 0;
+bool ShootLedsCh6 = 0;
+bool ShootLedsCh7 = 0;
 
-static uint8_t R2[64];
-static uint8_t G2[64];
-static uint8_t B2[64];
+uint8_t ch0_len = 0;
+uint8_t ch1_len = 0;
+uint8_t ch2_len = 0;
+uint8_t ch3_len = 0;
+uint8_t ch4_len = 0;
+uint8_t ch5_len = 0;
+uint8_t ch6_len = 0;
+uint8_t ch7_len = 0;
 
-static uint8_t R3[64];
-static uint8_t G3[64];
-static uint8_t B3[64];
+bool send_ch0 = 0;
+bool send_ch1 = 0;
+bool send_ch2 = 0;
+bool send_ch3 = 0;
+bool send_ch4 = 0;
+bool send_ch5 = 0;
+bool send_ch6 = 0;
+bool send_ch7 = 0;
 
-static uint8_t R4[64];
-static uint8_t G4[64];
-static uint8_t B4[64];
+uint8_t Idx0 = 0;
+uint8_t Idx1 = 0;
+uint8_t Idx2 = 0;
 
-static uint8_t R5[64];
-static uint8_t G5[64];
-static uint8_t B5[64];
-
-static uint8_t R6[64];
-static uint8_t G6[64];
-static uint8_t B6[64];
-
-static int ShootLedsCh0 = 0;
-static int ShootLedsCh1 = 0;
-static int ShootLedsCh2 = 0;
-static int ShootLedsCh3 = 0;
-static int ShootLedsCh4 = 0;
-static int ShootLedsCh5 = 0;
-static int ShootLedsCh6 = 0;
-
-static int Idx2, Idx3;
-
-uint8_t Idx = 0;
 uint8_t IdxFrame = 0;
-
 bool ftest = 1;
 
 int channel = 0;
 int type = 0;
 
-int ch0_len = 0;
-bool send_ch0 = 0;
+uint8_t len_package = 0;
+bool capturando = 0;
 
-# 98
+
+
+
 void AppInitialize(void)
 {
 
@@ -9315,14 +9311,14 @@ INTCON2bits.INTEDG0 = 1;
 
 }
 
-# 112
+# 101
 void AppProcess(void){
 while(1){
 
 }
 }
 
-# 145
+# 134
 void um_0(){ LATB1 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
 __nop();__nop();__nop();__nop();__nop();__nop();__nop();__nop();__nop();
 LATB1 = 0;
@@ -9330,97 +9326,52 @@ LATB1 = 0;
 void zero_0(){ LATB1 = 1; __nop();__nop();__nop();__nop();__nop();__nop();
 LATB1 = 0; __nop();__nop();__nop();__nop();__nop();__nop(); }
 
-# 198
-void SendBuffCh0(uint8_t idx_color1, uint8_t idx_color2, uint8_t idx_color3){
+# 187
+void SendBuffCh2(uint8_t idx_color1, uint8_t idx_color2, uint8_t idx_color3){
 
-if( (CH0[idx_color1] & 128) > 0) um_0();else zero_0();
-if( (CH0[idx_color1] & 64) > 0) um_0();else zero_0();
-if( (CH0[idx_color1] & 32) > 0) um_0();else zero_0();
-if( (CH0[idx_color1] & 16) > 0) um_0();else zero_0();
-if( (CH0[idx_color1] & 8) > 0) um_0();else zero_0();
-if( (CH0[idx_color1] & 4) > 0) um_0();else zero_0();
-if( (CH0[idx_color1] & 2) > 0) um_0();else zero_0();
-if( (CH0[idx_color1] & 1) > 0) um_0();else zero_0();
+if( (CH2[idx_color1] & 128) > 0) um_0();else zero_0();
+if( (CH2[idx_color1] & 64) > 0) um_0();else zero_0();
+if( (CH2[idx_color1] & 32) > 0) um_0();else zero_0();
+if( (CH2[idx_color1] & 16) > 0) um_0();else zero_0();
+if( (CH2[idx_color1] & 8) > 0) um_0();else zero_0();
+if( (CH2[idx_color1] & 4) > 0) um_0();else zero_0();
+if( (CH2[idx_color1] & 2) > 0) um_0();else zero_0();
+if( (CH2[idx_color1] & 1) > 0) um_0();else zero_0();
 
-if( (CH0[idx_color2] & 128) > 0) um_0();else zero_0();
-if( (CH0[idx_color2] & 64) > 0) um_0();else zero_0();
-if( (CH0[idx_color2] & 32) > 0) um_0();else zero_0();
-if( (CH0[idx_color2] & 16) > 0) um_0();else zero_0();
-if( (CH0[idx_color2] & 8) > 0) um_0();else zero_0();
-if( (CH0[idx_color2] & 4) > 0) um_0();else zero_0();
-if( (CH0[idx_color2] & 2) > 0) um_0();else zero_0();
-if( (CH0[idx_color2] & 1) > 0) um_0();else zero_0();
+if( (CH2[idx_color2] & 128) > 0) um_0();else zero_0();
+if( (CH2[idx_color2] & 64) > 0) um_0();else zero_0();
+if( (CH2[idx_color2] & 32) > 0) um_0();else zero_0();
+if( (CH2[idx_color2] & 16) > 0) um_0();else zero_0();
+if( (CH2[idx_color2] & 8) > 0) um_0();else zero_0();
+if( (CH2[idx_color2] & 4) > 0) um_0();else zero_0();
+if( (CH2[idx_color2] & 2) > 0) um_0();else zero_0();
+if( (CH2[idx_color2] & 1) > 0) um_0();else zero_0();
 
-if( (CH0[idx_color3] & 128) > 0) um_0();else zero_0();
-if( (CH0[idx_color3] & 64) > 0) um_0();else zero_0();
-if( (CH0[idx_color3] & 32) > 0) um_0();else zero_0();
-if( (CH0[idx_color3] & 16) > 0) um_0();else zero_0();
-if( (CH0[idx_color3] & 8) > 0) um_0();else zero_0();
-if( (CH0[idx_color3] & 4) > 0) um_0();else zero_0();
-if( (CH0[idx_color3] & 2) > 0) um_0();else zero_0();
-if( (CH0[idx_color3] & 1) > 0) um_0();else zero_0();
+if( (CH2[idx_color3] & 128) > 0) um_0();else zero_0();
+if( (CH2[idx_color3] & 64) > 0) um_0();else zero_0();
+if( (CH2[idx_color3] & 32) > 0) um_0();else zero_0();
+if( (CH2[idx_color3] & 16) > 0) um_0();else zero_0();
+if( (CH2[idx_color3] & 8) > 0) um_0();else zero_0();
+if( (CH2[idx_color3] & 4) > 0) um_0();else zero_0();
+if( (CH2[idx_color3] & 2) > 0) um_0();else zero_0();
+if( (CH2[idx_color3] & 1) > 0) um_0();else zero_0();
 }
 
-# 444
-void SetLED(uint8_t channel, uint8_t type, uint8_t led, uint8_t color1, uint8_t color2, uint8_t color3){
-
-uint8_t red, green, blue;
-
-if(type == 0){
-red = color2;
-green = color1;
-blue = color3;
-}
-else if(type==1){
-red = color1;
-green = color3;
-blue = color2;
-}
-
-
-if(channel == 0){
-R0[led]=red;
-G0[led]=green;
-B0[led]=blue;
-}
-
-# 495
-}
-
-# 501
+# 434
 void TestLEDs(){
 }
-
-void AppTimer1s(){
-}
-
-
-
-void AppTimer100ms(){
-}
-
-
-
-void AppTimer10ms(){
-
-# 533
-}
-
-
-
 void AppTimer1ms(){
-
-if(ShootLedsCh0 == 1){
-for(Idx=0; Idx < ch0_len; Idx+=3){
-SendBuffCh0(Idx, Idx+1, Idx+2);
+if(ShootLedsCh2){
+Idx0=0;
+while(Idx0 < ch2_len){
+SendBuffCh2(Idx0, Idx0+1, Idx0+2);
+Idx0+=3;
 }
-ShootLedsCh0 = 0;
+ShootLedsCh2 = 0;
+}
 }
 
-# 581
-}
-
-# 587
+# 451
 void AppTimer30us(void) {
 static int count1ms = 4;
 static int count10ms = 9;
@@ -9435,60 +9386,67 @@ AppTimer1ms();
 if (count10ms > 0)count10ms--;
 else {
 count10ms = 9;
-AppTimer10ms();
+
 if (count100ms > 0)count100ms--;
 else {
 count100ms = 9;
-AppTimer100ms();
+
 if (count1000ms > 0)count1000ms--;
 else {
 count1000ms = 9;
-AppTimer1s();
+
+}
 }
 }
 }
 }
 
-}
-
-# 623
+# 487
 void AppINT_USART1_RX(unsigned char rxData)
 {
 
-static int len_package = 0;
-static bool capturando = 0;
+Buffer[Idx1]= rxData;
+if(Buffer[Idx1] == 254 && !capturando){
+if(Buffer[Idx1-4]== 85){
+len_package= Buffer[Idx1-1];
 
-EUSART1_Write(Idx3);
-
-if(capturando){
-CH0[Idx3] = rxData;
-
-if(Idx2 > len_package){
-capturando=0;
-Idx2 = 0;
-Idx3 = 0;
-
-ShootLedsCh0 = 1;
-}
-}
-
-Buffer[Idx2]= rxData;
-if(Buffer[Idx2] == 254 && !capturando){
-if(Buffer[Idx2-4]== 85){
-len_package= Buffer[Idx2-1];
+type= Buffer[Idx1-2];
+channel= Buffer[Idx1-3];
+if(channel==0)
 ch0_len = len_package;
-type= Buffer[Idx2-2];
-channel= Buffer[Idx2-3];
+else if(channel==1)
+ch1_len = len_package;
+else if(channel==2)
+ch2_len = len_package;
+else if(channel==3)
+ch3_len = len_package;
+else if(channel==4)
+ch4_len = len_package;
+else if(channel==5)
+ch5_len = len_package;
+else if(channel==6)
+ch6_len = len_package;
+else if(channel==7)
+ch7_len = len_package;
 capturando = 1;
-Idx2 = 2;
-Idx3 = 0;
+Idx2 = 0;
 }
 }
-else{
+else {
+if(capturando){
+CH2[Idx2] = rxData;
+Idx1=0;
+
+if(Idx2 >= len_package-2){
+capturando=0;
+Idx1=0;
+Idx2=0;
+ShootLedsCh2 = 1;
+}
+else
 Idx2++;
 }
-if(capturando)
-Idx3++;
-
+}
+Idx1++;
 }
 

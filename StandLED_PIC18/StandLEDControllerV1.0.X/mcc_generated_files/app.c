@@ -11,12 +11,9 @@
 //
 // Versaoo de compilador utilizado: Microchip\xc8\v1.41
 //
-// Formato do pacote de configuracao: 
-//  0 a 254 para comandos e valores r g b;
-//
-//  terminador: 255
-//  canal, tipo, posicao, red, green, blue, 255  
-//  ShowLed = 1;
+// Formato de pacote de entrada:
+//          preamb chann type len_pay strt_pay dt0 dt1    dtn
+// DadosRx = [85,    1,    1,    8,      254,   1,  2...  11]
 //------------------------------------------------------------------------------
 #include "app.h"
 #include <xc.h>
@@ -29,7 +26,7 @@ static uint8_t Buffer[MY_RX_BUFFER_SIZE];
 // Sao 50 chips enderecaveis em 5 metros da fita de LED IX1903b
 
 # define MAX_LEDS_CH0 7
-# define MAX_LEDS_CH1 7
+# define MAX_LEDS_CH1 64
 # define MAX_LEDS_CH2 64
 # define MAX_LEDS_CH3 64
 # define MAX_LEDS_CH4 64
@@ -39,58 +36,50 @@ static uint8_t Buffer[MY_RX_BUFFER_SIZE];
 # define RBG 0
 # define GBR 1
 
-static uint8_t CH0[MAX_LEDS_CH0]; 
+static uint8_t CH0[MAX_LEDS_CH0];
+static uint8_t CH1[MAX_LEDS_CH1];
+static uint8_t CH2[MAX_LEDS_CH2];
 
-static uint8_t R0[MAX_LEDS_CH0]; 
-static uint8_t G0[MAX_LEDS_CH0]; 
-static uint8_t B0[MAX_LEDS_CH0];
 
-static uint8_t R1[MAX_LEDS_CH1]; 
-static uint8_t G1[MAX_LEDS_CH1]; 
-static uint8_t B1[MAX_LEDS_CH1];
+bool  ShootLedsCh0 = false;
+bool  ShootLedsCh1 = false;
+bool  ShootLedsCh2 = false;
+bool  ShootLedsCh3 = false;
+bool  ShootLedsCh4 = false;
+bool  ShootLedsCh5 = false;
+bool  ShootLedsCh6 = false;
+bool  ShootLedsCh7 = false;
 
-static uint8_t R2[MAX_LEDS_CH2]; 
-static uint8_t G2[MAX_LEDS_CH2]; 
-static uint8_t B2[MAX_LEDS_CH2];
+uint8_t ch0_len = 0;
+uint8_t ch1_len = 0;
+uint8_t ch2_len = 0;
+uint8_t ch3_len = 0;
+uint8_t ch4_len = 0;
+uint8_t ch5_len = 0;
+uint8_t ch6_len = 0;
+uint8_t ch7_len = 0;
 
-static uint8_t R3[MAX_LEDS_CH3]; 
-static uint8_t G3[MAX_LEDS_CH3]; 
-static uint8_t B3[MAX_LEDS_CH3];
+bool send_ch0 = false;
+bool send_ch1 = false;
+bool send_ch2 = false;
+bool send_ch3 = false;
+bool send_ch4 = false;
+bool send_ch5 = false;
+bool send_ch6 = false;
+bool send_ch7 = false;
 
-static uint8_t R4[MAX_LEDS_CH4]; 
-static uint8_t G4[MAX_LEDS_CH4]; 
-static uint8_t B4[MAX_LEDS_CH4];
+uint8_t Idx0 = 0;
+uint8_t Idx1 = 0;
+uint8_t Idx2 = 0;
 
-static uint8_t R5[MAX_LEDS_CH5]; 
-static uint8_t G5[MAX_LEDS_CH5]; 
-static uint8_t B5[MAX_LEDS_CH5];
-
-static uint8_t R6[MAX_LEDS_CH6]; 
-static uint8_t G6[MAX_LEDS_CH6]; 
-static uint8_t B6[MAX_LEDS_CH6];
-
-static int ShootLedsCh0 = 0;
-static int ShootLedsCh1 = 0;
-static int ShootLedsCh2 = 0;
-static int ShootLedsCh3 = 0;
-static int ShootLedsCh4 = 0;
-static int ShootLedsCh5 = 0;
-static int ShootLedsCh6 = 0;
-
-    static int Idx2, Idx3;
-
-uint8_t Idx = 0;
 uint8_t IdxFrame = 0;
-
 bool  ftest = true;
 
 int channel = 0;
 int type = RBG;
 
-int ch0_len = 0;
-bool send_ch0 = false;
-
-
+uint8_t len_package = 0;
+bool capturando = false;
 
 //------------------------------------------------------------------------------
 //  Inicializa��o
@@ -140,7 +129,7 @@ void zero(){
 // Codigo inline para geraco do diagrama de tempos 
 // Fita LED com chip IX1903B (um endereco controla 3 LEDs)
 // Obs: Refatorar utilizando bloco inline em assembler + ponteiros para
-// simplificação do codigo e unificação destas funcoes.
+// simplificacao do codigo e unificacaoo destas funcoes.
 //------------------------------------------------------------------------------
 void um_0(){ LATB1 = 1; NOP();NOP();NOP();NOP();NOP();NOP();
              NOP();NOP();NOP();NOP();NOP();NOP();NOP();NOP();NOP(); 
@@ -195,34 +184,34 @@ void zero_6(){ LATB5 = 1; NOP();NOP();NOP();NOP();NOP();NOP();
 
 */
 
-void SendBuffCh0(uint8_t idx_color1, uint8_t idx_color2, uint8_t idx_color3){
+void SendBuffCh2(uint8_t idx_color1, uint8_t idx_color2, uint8_t idx_color3){
    //-----------------------------
-    if( (CH0[idx_color1] & 128) > 0) um_0();else zero_0();
-    if( (CH0[idx_color1] & 64) > 0) um_0();else zero_0();
-    if( (CH0[idx_color1] & 32) > 0) um_0();else zero_0();
-    if( (CH0[idx_color1] & 16) > 0) um_0();else zero_0();
-    if( (CH0[idx_color1] & 8) > 0) um_0();else zero_0();
-    if( (CH0[idx_color1] & 4) > 0) um_0();else zero_0();
-    if( (CH0[idx_color1] & 2) > 0) um_0();else zero_0();
-    if( (CH0[idx_color1] & 1) > 0) um_0();else zero_0();
+    if( (CH2[idx_color1] & 128) > 0) um_0();else zero_0();
+    if( (CH2[idx_color1] & 64) > 0) um_0();else zero_0();
+    if( (CH2[idx_color1] & 32) > 0) um_0();else zero_0();
+    if( (CH2[idx_color1] & 16) > 0) um_0();else zero_0();
+    if( (CH2[idx_color1] & 8) > 0) um_0();else zero_0();
+    if( (CH2[idx_color1] & 4) > 0) um_0();else zero_0();
+    if( (CH2[idx_color1] & 2) > 0) um_0();else zero_0();
+    if( (CH2[idx_color1] & 1) > 0) um_0();else zero_0();
     //-----------------------------
-    if( (CH0[idx_color2] & 128) > 0) um_0();else zero_0();
-    if( (CH0[idx_color2] & 64) > 0) um_0();else zero_0();
-    if( (CH0[idx_color2] & 32) > 0) um_0();else zero_0();
-    if( (CH0[idx_color2] & 16) > 0) um_0();else zero_0();
-    if( (CH0[idx_color2] & 8) > 0) um_0();else zero_0();
-    if( (CH0[idx_color2] & 4) > 0) um_0();else zero_0();
-    if( (CH0[idx_color2] & 2) > 0) um_0();else zero_0();
-    if( (CH0[idx_color2] & 1) > 0) um_0();else zero_0();
+    if( (CH2[idx_color2] & 128) > 0) um_0();else zero_0();
+    if( (CH2[idx_color2] & 64) > 0) um_0();else zero_0();
+    if( (CH2[idx_color2] & 32) > 0) um_0();else zero_0();
+    if( (CH2[idx_color2] & 16) > 0) um_0();else zero_0();
+    if( (CH2[idx_color2] & 8) > 0) um_0();else zero_0();
+    if( (CH2[idx_color2] & 4) > 0) um_0();else zero_0();
+    if( (CH2[idx_color2] & 2) > 0) um_0();else zero_0();
+    if( (CH2[idx_color2] & 1) > 0) um_0();else zero_0();
     //-----------------------------
-    if( (CH0[idx_color3] & 128) > 0) um_0();else zero_0();
-    if( (CH0[idx_color3] & 64) > 0) um_0();else zero_0();
-    if( (CH0[idx_color3] & 32) > 0) um_0();else zero_0();
-    if( (CH0[idx_color3] & 16) > 0) um_0();else zero_0();
-    if( (CH0[idx_color3] & 8) > 0) um_0();else zero_0();
-    if( (CH0[idx_color3] & 4) > 0) um_0();else zero_0();
-    if( (CH0[idx_color3] & 2) > 0) um_0();else zero_0();
-    if( (CH0[idx_color3] & 1) > 0) um_0();else zero_0();
+    if( (CH2[idx_color3] & 128) > 0) um_0();else zero_0();
+    if( (CH2[idx_color3] & 64) > 0) um_0();else zero_0();
+    if( (CH2[idx_color3] & 32) > 0) um_0();else zero_0();
+    if( (CH2[idx_color3] & 16) > 0) um_0();else zero_0();
+    if( (CH2[idx_color3] & 8) > 0) um_0();else zero_0();
+    if( (CH2[idx_color3] & 4) > 0) um_0();else zero_0();
+    if( (CH2[idx_color3] & 2) > 0) um_0();else zero_0();
+    if( (CH2[idx_color3] & 1) > 0) um_0();else zero_0();
 }
 
 
@@ -438,146 +427,21 @@ void SendBuffCh6(uint8_t idx ){
 }
 */
 
-//------------------------------------------------------------------------------
-// 
-//------------------------------------------------------------------------------
-void SetLED(uint8_t channel, uint8_t type, uint8_t led, uint8_t color1, uint8_t color2, uint8_t color3){
-    
-    uint8_t red, green, blue;
-             
-    if(type == 0){  // Algumas fitas tem o a sequencia RGB invertidas... LEDs inferior Tampa ok.
-        red = color2;
-        green = color1;
-        blue = color3;
-    }
-    else if(type==1){
-        red = color1;
-        green = color3;
-        blue = color2;
-    }
-    
-    //-----------------
-    if(channel == 0){
-        R0[led]=red;
-        G0[led]=green;
-        B0[led]=blue;
-    }
-    
-    /*
-    else if(channel == 1){
-        R1[led]=red;
-        G1[led]=green;
-        B1[led]=blue;
-    }
-    else if(channel == 2){
-        R2[led]=red;
-        G2[led]=green;
-        B2[led]=blue;
-    }
-    else if(channel == 3){
-        R3[led]=red;
-        G3[led]=green;
-        B3[led]=blue;
-    }
-    else if(channel == 4){
-        R4[led]=red;
-        G4[led]=green;
-        B4[led]=blue;
-    }
-    else if(channel == 5){
-        R5[led]=red;
-        G5[led]=green;
-        B5[led]=blue;
-    }
-     
-    */
-     
-}
-
 
 //------------------------------------------------------------------------------
 // Rotima de teste dos LEDs (1 x na inicializa��o))
 //------------------------------------------------------------------------------
 void TestLEDs(){  
 }
-//------------------------
-void AppTimer1s(){
-}   
-//------------------------
-// Interrompe a cada 100ms
-//------------------------
-void AppTimer100ms(){
-}
-//------------------------
-// Interrompe a cada 10ms
-//------------------------
-void AppTimer10ms(){
-    
-    /*
-    static int cnt=0;
-    
-    if(send_ch0){
-        if(cnt<ch0_len){
-            EUSART1_Write(CH0[cnt]);
-            cnt++;
-        }
-        else {
-            cnt=0;
-            send_ch0 = false;
-        }
-    }
-     * 
-     */
-    
-     
-}
-//------------------------
-// Interrompe a cada 1ms
-//------------------------
 void AppTimer1ms(){
-    
-    if(ShootLedsCh0 == 1){
-        for(Idx=0; Idx < ch0_len; Idx+=3){
-            SendBuffCh0(Idx, Idx+1, Idx+2);
+        if(ShootLedsCh2){
+        Idx0=0;
+        while(Idx0 < ch2_len){
+             SendBuffCh2(Idx0, Idx0+1, Idx0+2);
+             Idx0+=3;
         }
-        ShootLedsCh0 = 0;
+        ShootLedsCh2 = false;
     }
-    
-    /*
-    
-    if(ShootLedsCh1 == 1){
-        for(Idx=0; Idx < MAX_LEDS_CH1; Idx++)
-            SendBuffCh1(Idx);
-        ShootLedsCh1 = 0;
-    }
-    if(ShootLedsCh2 == 1){
-        for(Idx=0; Idx < MAX_LEDS_CH2; Idx++)
-            SendBuffCh2(Idx);
-        ShootLedsCh2 = 0;
-    }
-    if(ShootLedsCh3 == 1){
-        for(Idx=0; Idx < MAX_LEDS_CH3; Idx++)
-            SendBuffCh3(Idx);
-        ShootLedsCh3 = 0;
-    }
-    if(ShootLedsCh4 == 1){
-        for(Idx=0; Idx < MAX_LEDS_CH4; Idx++)
-            SendBuffCh4(Idx);
-        ShootLedsCh4 = 0;
-    }
-    if(ShootLedsCh5 == 1){
-        for(Idx=0; Idx < MAX_LEDS_CH5; Idx++)
-            SendBuffCh5(Idx);
-        ShootLedsCh5 = 0;
-    }
-    if(ShootLedsCh6 == 1){
-        for(Idx=0; Idx < MAX_LEDS_CH6; Idx++)
-            SendBuffCh6(Idx);
-        ShootLedsCh6 = 0;
-    }
-     * 
-     * 
-     */
 }    
 
 
@@ -598,21 +462,21 @@ void AppTimer30us(void)  {
         if (count10ms > 0)count10ms--;
         else {
             count10ms = 9;
-            AppTimer10ms();
+            //AppTimer10ms();
             if (count100ms > 0)count100ms--;
             else {
                 count100ms = 9;
-                AppTimer100ms();
+                //AppTimer100ms();
                 if (count1000ms > 0)count1000ms--;
                 else {
                     count1000ms = 9;
-                    AppTimer1s();
+                    //AppTimer1s();
                 }
             }
         }
     }       
-
 }
+
 
 //------------------------------------------------------------------------------
 // Interrupcao de recepcao serial
@@ -622,131 +486,51 @@ void AppTimer30us(void)  {
 //------------------------------------------------------------------------------
 void AppINT_USART1_RX(unsigned char rxData)
 {    
-
-    static int len_package = 0;
-    static bool capturando = false;
-    
-    EUSART1_Write(Idx3);
-    
-    if(capturando){
-        CH0[Idx3] = rxData; 
-        
-        if(Idx2 > len_package){  //
-            capturando=false;
+    // Obs: Vari�vel est�tica perdendo valor neste ponto...
+    Buffer[Idx1]= rxData;
+    if(Buffer[Idx1] == 254 && !capturando){
+        if(Buffer[Idx1-4]== 85){
+            len_package= Buffer[Idx1-1];
+            
+            type= Buffer[Idx1-2];
+            channel= Buffer[Idx1-3];
+            if(channel==0)
+                ch0_len = len_package;
+            else if(channel==1)
+                ch1_len = len_package;
+            else if(channel==2)
+                ch2_len = len_package;
+            else if(channel==3)
+                ch3_len = len_package;
+            else if(channel==4)
+                ch4_len = len_package;
+            else if(channel==5)
+                ch5_len = len_package;
+            else if(channel==6)
+                ch6_len = len_package;
+            else if(channel==7)
+                ch7_len = len_package;
+            capturando = true;
             Idx2 = 0;
-            Idx3 = 0;
-            //send_ch0 = true;
-            ShootLedsCh0 = 1;
+        }
+    }
+    else {
+       if(capturando){
+            CH2[Idx2] = rxData;
+            Idx1=0;
+            //EUSART1_Write(Idx2);
+            if(Idx2 >= len_package-2){  //
+               capturando=false;
+               Idx1=0;
+               Idx2=0;
+               ShootLedsCh2 = 1;
+            }
+            else
+                Idx2++; 
        }
     }
-    
-    Buffer[Idx2]= rxData;
-    if(Buffer[Idx2] == 254 && !capturando){
-        if(Buffer[Idx2-4]== 85){
-            len_package= Buffer[Idx2-1];
-            ch0_len = len_package; 
-            type= Buffer[Idx2-2];
-            channel= Buffer[Idx2-3];
-            capturando = true;
-            Idx2 = 2;  //2
-            Idx3 = 0;
-        }
-    }
-    else{
-       Idx2++;
-    }
-    if(capturando)
-       Idx3++;
-    
+    Idx1++; 
 }
- 
-//------------------------------------------------------------------------------
-// Interrupcao de recepcao serial
-
-// pacote com 7  bytes:
-// canal(0-5) Type(0-1) led(0-N) red_val(0-254) green_val(0-254) blue_val(0-254) end_code(255)
-// Frmt:  0       0     1        10                 0             10               255
-
-// Pacote com2 bytes:
-// cmd(0-10)  end_code(255)
-// Frmt:  0      255
-//------------------------------------------------------------------------------
-/*
-void AppINT_USART1_RX(unsigned char rxData)
-{    
-    uint8_t channel, pos, red, green, blue, cmd , type, c;
-    EUSART1_Write(rxData);
-    Buffer[Idx]= rxData;
-    
-    static int data_cnt;
-    data_cnt++;
-    
-    if(Buffer[Idx] == 255){ 
-       
-        if(data_cnt==7){       // Pacote com 5 cmds + end_code
-           
-            channel = Buffer[Idx-6];
-            type = Buffer[Idx-5];
-            pos = Buffer[Idx-4];        
-            red= Buffer[Idx-3];
-            green = Buffer[Idx-2];
-            blue = Buffer[Idx-1];
-
-            Idx = 0;
-            
-            SetLED(channel, type, pos, red, green, blue); 
-
-            if(channel==0)  ShootLedsCh0 = 1;
-            else if(channel==1)  ShootLedsCh1 = 1;
-            else if(channel==2)  ShootLedsCh2 = 1;
-            else if(channel==3)  ShootLedsCh3 = 1;
-            else if(channel==4)  ShootLedsCh4 = 1;
-            else if(channel==5)  ShootLedsCh5 = 1;          
-            IdxFrame = 0;
-            
-            data_cnt=0; 
-            
-        }
-        if(data_cnt==2){       // Pacote com 1 cmd + end_code
-            
-           cmd = Buffer[Idx-1];      
-           Idx = 0;
-           
-           if(cmd==0){ 
-                LED_Toggle();
-                for(int c=0; c< 50; c++){
-                    SetLED(0, RBG, c, 10 , 0 , 0); // Fita Tampo menor
-                    SetLED(1, GBR, c, 10 , 0 , 0); // Fita ainda nao utilizada
-                }
-                ShootLedsCh0 = 1;
-                ShootLedsCh1 = 1;
-           }
-           else if(cmd==1){   
-                LED_Toggle();
-                for(int c=0; c< 50; c++){
-                    SetLED(0, RBG, c, 0 , 10 , 0);
-                    SetLED(1, GBR, c, 0 , 10 , 0);
-                }
-                ShootLedsCh0 = 1;
-                ShootLedsCh1 = 1;
-           }
-           else if(cmd==2){  
-                LED_Toggle();
-                for(int c=0; c< 50; c++){
-                    SetLED(0, RBG, c, 0 , 0 , 10);
-                    SetLED(1, GBR, c, 0 , 0 , 10);
-                }
-                ShootLedsCh0 = 1;
-                ShootLedsCh1 = 1;
-           }
-           
-           data_cnt=0; 
-        }    
-    }
-    else  
-      Idx += 1;
-}
-  */
 //------------------------------------------------------------------------------
 //End of File
-//--------------
+//------------------------------------------------------------------------------
