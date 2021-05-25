@@ -30,10 +30,10 @@ class Message:
     def __init__(self, master):
 
         self.label_port = Label(master, text="COMx", font="Arial 10 bold", bg="black", fg="yellow")
-        self.label_port.place(width=80, height=18, x=52, y=356)
+        self.label_port.place(width=80, height=18, x=42, y=361)
 
         self.label_baud = Label(master, text="BAUDx", font="Arial 10 bold", bg="black", fg="yellow")
-        self.label_baud.place(width=80, height=18, x=164, y=356)
+        self.label_baud.place(width=80, height=18, x=42, y=175)
 
         self.label_RGB = Label(master, text="---.---.---", font="Arial 20", fg="green", bg="black")
         #self.label_RGB.place(width=194, height=33, x=571, y=112)

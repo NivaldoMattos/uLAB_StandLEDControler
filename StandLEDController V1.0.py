@@ -62,10 +62,7 @@ Cena1 =[ [4, 0, 2, 4, 0, 2, 4, 0, 2, 4, 0, 2, 4, 0, 2, 4, 0, 2, 4, 0, 2, 4, 0, 2
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] , [0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0, 0, 100, 0] ]
 
 
-Cena2 = [ [0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 
-9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9] , [191, 0, 0, 191, 0, 0, 191, 0, 0] , [0, 255, 255, 0, 255, 255, 0, 255, 255] , [0, 255, 0, 0, 255, 0, 0, 255, 0] , [0, 255, 0, 0, 255, 0, 0, 255, 0] , [60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64, 60, 2, 64] , [0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 
-74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0, 0, 74, 0] ]
-
+Cena2 = [ [255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9, 255, 255, 9] , [255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255, 255, 13, 255] , [255, 255, 15, 255, 255, 15, 255, 255, 15] , [255, 255, 16, 255, 255, 16, 255, 255, 16] , [255, 255, 12, 255, 255, 12, 255, 255, 12] , [255, 255, 12, 255, 255, 12, 255, 255, 12] , [255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19, 255, 255, 19] ]
 Cena3 = [ [9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 
 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0, 9, 0, 0] , [1, 1, 1, 1, 1, 1, 1, 1, 1] , [1, 1, 1, 1, 1, 1, 1, 1, 1] , [1, 1, 1, 1, 1, 1, 1, 1, 1] , [1, 1, 1, 1, 1, 1, 1, 1, 1] , [1, 1, 1, 
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -177,6 +174,8 @@ def SendCena(Cena):
 
 def f1():
     global channel
+
+
     if ulcom.is_open():
        
         DadosLEDs = Clear 
@@ -215,25 +214,45 @@ def f5():
         ask_to_open_port()
 
 def f6():
-    if ulcom.is_open():
-        SendCena(Cena5)
-    else:
-        ask_to_open_port()
+    print("-------------")
+    print( "[",Top,",", Utop,",", Tw_1,",", Tw_2,",", Tw_3,",", Tw_4,",", Bench_edge,"]")
 
 
 def f10():
     global SearchingPorts, channel
     SearchingPorts = True
-    print("----------------------")
   
-    print("[", Bench_edge, ",", Tw_1, ",", Tw_2, ",", Tw_3, ",", Tw_4, ",", Utop, "," , Top, "]" )
+    if channel < 7:
+        channel = channel + 1
+    else:
+        channel = 1;
+    print("Channel:", channel)
 
-    #if channel < 7:
-        #channel = channel + 1
-    #else:
-        #channel = 0;
+    bt_bench_edge.configure(bg="black")
+    bt_tw1.configure(bg="black") 
+    bt_tw2.configure(bg="black")  
+    bt_tw3.configure(bg="black")  
+    bt_tw4.configure(bg="black")  
+    bt_top.configure(bg="black")  
+    bt_utop.configure(bg="black")       
 
-    #print("Channel:", channel)
+    if channel == 1:
+        bt_bench_edge.configure(bg="red")
+    elif channel == 2: 
+        bt_tw1.configure(bg="red")
+    elif channel == 3: 
+        bt_tw2.configure(bg="red")
+    elif channel == 4: 
+        bt_tw3.configure(bg="red")
+    elif channel == 5: 
+        bt_tw4.configure(bg="red")
+    elif channel == 6: 
+        pass
+        bt_utop.configure(bg="red")
+    elif channel == 7: 
+        pass
+        bt_top.configure(bg="red")
+
 
 
 
@@ -259,6 +278,8 @@ def f11():
         message.botton('Unconnected!', "red", beep=False)
         bt_f11["image"] = btf11_open_img
 
+    #---------------------------------
+
 
 def SendColor(channel):
     global varR, varG, varB
@@ -267,6 +288,11 @@ def SendColor(channel):
     varR = int(str1[0])
     varG = int(str1[1])
     varB = int(str1[2])
+
+    sliderR.set(100)
+    sliderG.set(100)
+    sliderB.set(100)
+    
   
     if ulcom.is_open():
 
@@ -276,6 +302,7 @@ def SendColor(channel):
                 Top[idx+2] = varG
                 Top[idx+1] = varR
                 Top[idx+0] = varB
+   
                 #print(idx)
             DadosConf = [PREAMB, channel, LED_SEQ_RBG, len(Top), STRT_PAY]
             SendData(DadosConf, Top)
@@ -344,6 +371,88 @@ def SendColor(channel):
         ask_to_open_port()
 
 
+def FuncSlider(val):
+    global varR, varG, varB
+
+    varR = sliderR.get()
+    varG = sliderG.get()
+    varB = sliderB.get()
+
+    if ulcom.is_open():
+
+        if channel == 7:
+            #bt_top["background"] = varR, varG, varB
+            for idx in range(0, len(Top),3):
+                Top[idx+2] = varG
+                Top[idx+1] = varR
+                Top[idx+0] = varB
+                #print(idx)
+            DadosConf = [PREAMB, channel, LED_SEQ_RBG, len(Top), STRT_PAY]
+            SendData(DadosConf, Top)
+
+        if channel == 6:
+            #bt_utop["background"] = varR, varG, varB
+            for idx in range(0, len(Utop),3):
+                Utop[idx+2] =varB #varB  #
+                Utop[idx+1] =varG #varG
+                Utop[idx+0] =varR #varR
+                #print(idx)
+            DadosConf = [PREAMB, channel, LED_SEQ_RBG, len(Utop), STRT_PAY]
+            SendData(DadosConf, Utop)
+
+        if channel == 5:
+            #bt_tw4["background"] = varR, varG, varB
+            for idx in range(0, len(Tw_4),3):
+                Tw_4[idx+2] = varG
+                Tw_4[idx+1] = varR
+                Tw_4[idx+0] = varB
+                #print(idx)
+            DadosConf = [PREAMB, channel, LED_SEQ_RBG, len(Tw_4), STRT_PAY]
+            SendData(DadosConf, Tw_4)
+
+        if channel == 4:
+            #bt_tw3["background"] = varR, varG, varB
+            for idx in range(0, len(Tw_3),3):
+                Tw_3[idx+2] = varG
+                Tw_3[idx+1] = varR
+                Tw_3[idx+0] = varB
+                #print(idx)
+            DadosConf = [PREAMB, channel, LED_SEQ_RBG, len(Tw_3), STRT_PAY]
+            SendData(DadosConf, Tw_3)
+
+        if channel == 3:
+            #bt_tw2["background"] = varR, varG, varB
+            for idx in range(0, len(Tw_2),3):
+                Tw_2[idx+2] = varG
+                Tw_2[idx+1] = varR
+                Tw_2[idx+0] = varB
+                #print(idx)
+            DadosConf = [PREAMB, channel, LED_SEQ_RBG, len(Tw_2), STRT_PAY]
+            SendData(DadosConf, Tw_2)
+
+        if channel == 2:
+            #bt_tw1["background"] = varR, varG, varB
+            for idx in range(0, len(Tw_1),3):
+                Tw_1[idx+2] = varG
+                Tw_1[idx+1] = varR
+                Tw_1[idx+0] = varB
+                #print(idx)
+            DadosConf = [PREAMB, channel, LED_SEQ_RBG, len(Tw_1), STRT_PAY]
+            SendData(DadosConf, Tw_1)
+
+        if channel == 1:
+            #bt_bench_edge["background"] = varR, varG, varB
+            for idx in range(0, len(Bench_edge),3):
+                Bench_edge[idx+2] = varG
+                Bench_edge[idx+1] = varR
+                Bench_edge[idx+0] = varB
+                #print(idx)
+            DadosConf = [PREAMB, channel, LED_SEQ_RBG, len(Bench_edge), STRT_PAY]
+            SendData(DadosConf, Bench_edge)
+
+    else:
+        ask_to_open_port()
+
 # -----------------------------------------------------------------------------------
 # Widgets
 # -----------------------------------------------------------------------------------
@@ -384,10 +493,10 @@ bt_f6.place(width=121, height=70, x=663, y=80)
 
 
 bt_f10 = Button(Master, image=btf10_img, bd=1, command=f10)
-bt_f10.place(width=94, height=50, x=45, y=484)
+bt_f10.place(width=94, height=50, x=35, y=480)
 
 bt_f11 = Button(Master, image=btf11_open_img, bd=1, command=f11)
-bt_f11.place(width=94, height=50, x=158, y=484)
+bt_f11.place(width=94, height=50, x=35, y=296)
 
 
 bt_top = Button(Master, background="green", bd=1, command=partial(SendColor, 7)) 
@@ -411,6 +520,15 @@ bt_tw1.place(width=20, height=20, x=393, y=300)
 bt_bench_edge = Button(Master, background="green", bd=1, command=partial(SendColor, 1))
 bt_bench_edge.place(width=40, height=15, x=550, y=410)
 
+sliderR=Scale(Master, command=FuncSlider, length=360, from_=255, to=0, resolution=1, orient=VERTICAL, bg="#f5f5f5", bd=2)
+sliderR.place(x=130, y=170)
+
+sliderG=Scale(Master, command=FuncSlider, length=360, from_=255, to=0, resolution=1, orient=VERTICAL, bg="#f5f5f5", bd=2)
+sliderG.place(x=170, y=170)
+
+sliderB=Scale(Master, command=FuncSlider, length=360, from_=255, to=0, resolution=1, orient=VERTICAL, bg="#f5f5f5", bd=2)
+sliderB.place(x=210, y=170)
+
 
 port_list = Listbox(Master, height=1, width=7, bd=10, font="Arial 10", bg="black",
                     fg="#008000",
@@ -419,7 +537,7 @@ port_list = Listbox(Master, height=1, width=7, bd=10, font="Arial 10", bg="black
                     selectbackground="black",
                     )
 
-port_list.place(width=83, height=90, x=51, y=385)
+port_list.place(width=83, height=90, x=41, y=385)
 port_list.insert(END, "COM5")
 port_list.bind('<Double-Button>', lambda e: message.port("green", port_list.get(ANCHOR)))
 
@@ -430,7 +548,7 @@ baud_list = Listbox(Master, height=1, width=7, bd=10, font="Arial 10", bg="black
                     selectbackground="black",
                     )
 
-baud_list.place(width=82, height=90, x=163, y=385)
+baud_list.place(width=82, height=90, x=41, y=200)
 baud_list.insert(END, "9600", "19200", "38400", "115200", "256000")
 baud_list.bind('<Double-Button>', lambda e: message.baud("green", baud_list.get(ANCHOR)))
 
