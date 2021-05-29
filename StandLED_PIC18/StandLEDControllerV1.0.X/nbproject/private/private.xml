@@ -5,6 +5,8 @@
         <group>
             <file>file:/C:/DevPython2021/uLAB_StandLEDControler/StandLED_PIC18/StandLEDControllerV1.0.X/mcc_generated_files/pin_manager.h</file>
             <file>file:/C:/DevPython2021/uLAB_StandLEDControler/StandLED_PIC18/StandLEDControllerV1.0.X/main.c</file>
+            <file>file:/C:/DevPython2021/uLAB_StandLEDControler/StandLED_PIC18/StandLEDControllerV1.0.X/mcc_generated_files/pin_manager.c</file>
+            <file>file:/C:/DevPython2021/uLAB_StandLEDControler/StandLED_PIC18/StandLEDControllerV1.0.X/mcc_generated_files/interrupt_manager.h</file>
             <file>file:/C:/DevPython2021/uLAB_StandLEDControler/StandLED_PIC18/StandLEDControllerV1.0.X/mcc_generated_files/app.c</file>
             <file>file:/C:/DevPython2021/uLAB_StandLEDControler/StandLED_PIC18/StandLEDControllerV1.0.X/mcc_generated_files/eusart1.c</file>
         </group>
