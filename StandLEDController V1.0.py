@@ -15,6 +15,7 @@ import serial.tools.list_ports
 from time import sleep
 from tkinter import colorchooser
 from functools import partial
+import json
 
 Master = Tk()
 
@@ -75,8 +76,9 @@ Cena4 =[ [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
 10, 245, 1, 10, 245, 1] , [0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91, 0, 0, 91] , [0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225, 0, 225, 225] ]
 
 Cena5 = [ [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] ]
-Cena6 = [ [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2] , [2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255] , [2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] ]
-Cena7 = [ [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255, 2] , [2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255] , [2, 0, 255, 2, 0, 255, 2, 0, 255, 2, 0, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] , [2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255, 2, 2, 255] ]
+Cena6 = [ [0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16, 0, 101, 16] , [78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0, 78, 15, 0] , [55, 65, 0, 55, 65, 0, 55, 65, 0, 55, 65, 0] , [63, 72, 0, 63, 72, 0, 63, 72, 0, 63, 72, 0] , [31, 30, 0, 31, 30, 0, 31, 30, 0, 31, 30, 0] , [18, 21, 0, 18, 21, 0, 18, 21, 0, 18, 21, 0] , [8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0, 8, 0, 0] ]
+Cena7 =  [ [73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0, 73, 255, 0] , [176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 
+0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0, 176, 0, 0] , [0, 160, 0, 0, 160, 0, 0, 160, 0, 0, 160, 0] , [0, 116, 0, 0, 116, 0, 0, 116, 0, 0, 116, 0] , [0, 102, 0, 0, 102, 0, 0, 102, 0, 0, 102, 0] , [0, 137, 0, 0, 137, 0, 0, 137, 0, 0, 137, 0] , [2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0] ]
 
 varR = 0
 varG = 0
@@ -137,50 +139,69 @@ def f_searching_ports():
             #    1   2      5     4     3      6         0
 
 
-def SendCena(Cena):
-    
-    #print(len(Cena[0]))
-    #print(Cena[0])
-    #print(len(Top))
-    #print(Top)
+# --------------------------------------------------------------------------
+# Load Json bank
+# --------------------------------------------------------------------------
+def load_json_data(cena):
 
-    for idx in range(0,len(Top)):
-        Top[idx] = Cena[0][idx]    
-    for idx in range(0, len(Utop)):
-        Utop[idx] = Cena[0][idx]
-    for idx in range(0, len(Tw_1)):
-        Tw_1[idx] = Cena[0][idx]
-    for idx in range(0, len(Tw_2)):
-        Tw_2[idx] = Cena[0][idx]
-    for idx in range(0, len(Tw_3)):
-        Tw_3[idx] = Cena[0][idx]
-    for idx in range(0, len(Tw_4)):
-        Tw_4[idx] = Cena[0][idx]
-    for idx in range(0, len(Bench_edge)):
-        Bench_edge[idx] = Cena[0][idx]
-    
+    cena_file = f"cena{cena}.json" 
+
+    print("cena_file", cena_file)
+
+    with open(cena_file, 'r') as file:
+        data = json.load(file)
+
+    return data["Top"], data["Utop"], data["Tw_1"], data["Tw_2"], data["Tw_3"], data["Tw_4"], data["Bench_edge"]
+
+
+# --------------------------------------------------------------------------
+# Write Json bank
+# --------------------------------------------------------------------------
+def update_json_data(task, updated_time_in_seconds, updated_value):
+    with open('cenas.json', 'r') as file:
+        data = json.load(file)
+        data[task][1] = updated_time_in_seconds
+        data[task][2] = updated_value
+        
+    with open('cenas.json', 'w') as file:
+        json.dump(data, file)
+    #print(" Update registers!")
+
+# --------------------------------------------------------------------------
+# Send cena recebida por parametro
+# --------------------------------------------------------------------------
+def SendCena():
+
     time = 0.001
-    DadosConf = [PREAMB, 1, LED_SEQ_RBG, len(Top), STRT_PAY]
+    DadosConf = [PREAMB, 7, LED_SEQ_RBG, len(Top), STRT_PAY]
     SendData(DadosConf, Top)
     sleep(time)
-    DadosConf = [PREAMB, 2, LED_SEQ_RBG, len(Utop), STRT_PAY]
+
+    
+    DadosConf = [PREAMB, 6, LED_SEQ_RBG, len(Utop), STRT_PAY]
     SendData(DadosConf, Utop)
     sleep(time)
-    DadosConf = [PREAMB, 3, LED_SEQ_RBG, len(Tw_1), STRT_PAY]
+
+    DadosConf = [PREAMB, 2, LED_SEQ_RBG, len(Tw_1), STRT_PAY]
     SendData(DadosConf, Tw_1)
     sleep(time)
-    DadosConf = [PREAMB, 4, LED_SEQ_RBG, len(Tw_2), STRT_PAY]
+
+    DadosConf = [PREAMB, 3, LED_SEQ_RBG, len(Tw_2), STRT_PAY]
     SendData(DadosConf, Tw_2)
     sleep(time)
-    DadosConf = [PREAMB, 5, LED_SEQ_RBG, len(Tw_3), STRT_PAY]
+
+    DadosConf = [PREAMB, 4, LED_SEQ_RBG, len(Tw_3), STRT_PAY]
     SendData(DadosConf, Tw_3)
     sleep(time)
-    DadosConf = [PREAMB, 6, LED_SEQ_RBG, len(Tw_4), STRT_PAY]
+
+    DadosConf = [PREAMB, 5, LED_SEQ_RBG, len(Tw_4), STRT_PAY]
     SendData(DadosConf, Tw_4)
     sleep(time)
-    DadosConf = [PREAMB, 7, LED_SEQ_RBG, len(Bench_edge), STRT_PAY]
+
+    DadosConf = [PREAMB, 1, LED_SEQ_RBG, len(Bench_edge), STRT_PAY]
     SendData(DadosConf, Bench_edge)
     sleep(time)
+
 
 
 def SendColor(ch, varG, varR, varB):
@@ -252,11 +273,6 @@ def SelectChannel(ch):
     global channel, varG , varR , varB 
 
     channel = ch
-    #varG = 0
-   # varR = 0
-   # varB = 0
-
-    #print("Channel-:", channel, varG, varR, varB)
 
     if channel == 1:
         bt_bench_edge.configure(bg="gray")
@@ -285,13 +301,11 @@ def SelectChannel(ch):
         varR = Tw_4[1] 
         varB = Tw_4[0] 
     elif channel == 6: 
-        pass
         bt_utop.configure(bg="gray")
         varB = Utop[2]
         varG = Utop[1] 
         varR = Utop[0] 
     elif channel == 7: 
-        pass
         bt_top.configure(bg="gray")
         varG = Top[2]
         varR = Top[1] 
@@ -372,65 +386,98 @@ def f_AllOff():
     sliderR.set(0)
     sliderG.set(0)
     sliderB.set(0)
+    print("Cena0")
+    global Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge
+
     if ulcom.is_open():
-        SendCena(AllOff)
+        Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge = load_json_data((0))
+        SendCena()
     else:
         ask_to_open_port()
 
 
 def f_AllOn(): 
     print("AllOn")
+    global Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge
+
     if ulcom.is_open():
-        SendCena(AllOn)
+        Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge = load_json_data((10))
+        SendCena()
     else:
         ask_to_open_port()
 
 
+
 def f_Cena1(): 
     print("Cena1")
+    global Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge
+
     if ulcom.is_open():
-        SendCena(Cena1)
+        Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge = load_json_data((1))
+        SendCena()
     else:
         ask_to_open_port()
 
 
 def f_Cena2(): 
     print("Cena2")
+    global Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge
+
     if ulcom.is_open():
-        SendCena(Cena2)
+        Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge = load_json_data((2))
+        SendCena()
     else:
         ask_to_open_port()
 
 def f_Cena3(): 
     print("Cena3")
+    global Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge
+
     if ulcom.is_open():
-        SendCena(Cena3)
+        Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge = load_json_data((3))
+        SendCena()
     else:
         ask_to_open_port()
 
 def f_Cena4(): 
     print("Cena4")
+    global Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge
+
     if ulcom.is_open():
-        SendCena(Cena4)
-    else:
-        ask_to_open_port()
-def f_Cena5(): 
-    print("Cena5")
-    if ulcom.is_open():
-        SendCena(Cena5)
-    else:
-        ask_to_open_port()
-def f_Cena6(): 
-    print("Cena6")
-    if ulcom.is_open():
-        SendCena(Cena6)
+        Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge = load_json_data((4))
+        SendCena()
     else:
         ask_to_open_port()
 
+def f_Cena5(): 
+    print("Cena5")
+    global Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge
+
+    if ulcom.is_open():
+        Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge = load_json_data((5))
+        SendCena()
+    else:
+        ask_to_open_port()
+
+
+def f_Cena6():
+    print("Cena6")
+    global Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge
+
+    if ulcom.is_open():
+        Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge = load_json_data((6))
+        SendCena()
+    else:
+        ask_to_open_port()
+    
+
 def f_Cena7(): 
     print("Cena7")
+    global Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge
+
     if ulcom.is_open():
-        SendCena(Cena7)
+        Top, Utop, Tw_1, Tw_2, Tw_3, Tw_4, Bench_edge = load_json_data(7)
+        SendCena()
     else:
         ask_to_open_port()
 
@@ -439,8 +486,20 @@ def f10():
     global SearchingPorts, channel
     SearchingPorts = True
 
-    print("Dados atuais para o cenário:")
-    print( "Cenax = [",Top,",", Utop,",", Tw_1,",", Tw_2,",", Tw_3,",", Tw_4,",", Bench_edge,"]")
+
+    print("Cena atual para arquivo json:")
+    print("{")
+    print( '    "Top": ',Top,",")
+    print( '    "Utop": ',Utop,",")
+    print( '    "Tw_1": ',Tw_1,",")
+    print( '    "Tw_2": ',Tw_2,",")
+    print( '    "Tw_3": ',Tw_3,",")
+    print( '    "Tw_4": ',Tw_4,",")
+    print( '    "Bench_edge": ',Bench_edge)
+    print("}")
+
+    
+    #,", Utop,",", Tw_1,",", Tw_2,",", Tw_3,",", Tw_4,",", Bench_edge,"]")
 
 
 def f11():
